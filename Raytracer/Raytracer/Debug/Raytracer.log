@@ -1,1 +1,20 @@
-﻿
+﻿  Camera.cpp
+  ColorDbl.cpp
+  Direction.cpp
+  main.cpp
+  Pixel.cpp
+  Ray.cpp
+  Scene.cpp
+  Vertex.cpp
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\vertex.cpp(3): error C2533: 'Vertex::{ctor}': constructors not allowed a return type
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\vertex.cpp(3): error C2511: 'Vertex::Vertex(float,float,float)': overloaded member function not found in 'Vertex'
+  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\vertex.h(2): note: see declaration of 'Vertex'
+  Triangle.cpp
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(2): error C2236: unexpected token 'class'. Did you forget a ';'?
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(2): error C2059: syntax error: '{'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(2): error C2143: syntax error: missing ';' before '{'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(2): error C2447: '{': missing function header (old-style formal list?)
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\vertex.h(2): error C2011: 'Vertex': 'class' type redefinition
+  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\vertex.h(2): note: see declaration of 'Vertex'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\direction.h(5): fatal error C1014: too many include files: depth = 1024
+  Generating Code...
