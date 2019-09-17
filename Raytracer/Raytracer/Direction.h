@@ -9,10 +9,17 @@ class Direction
 {
 public:
 	//Constructor
-	Direction(float x, float y, float z);
+	Direction(double x, double y, double z)
+		: X(x), Y(y), Z(z) { };
 
 	//Destructor
-	~Direction();
+	//~Direction();
+
+	//DATA MEMBERS
+	double X;
+	double Y;
+	double Z;
 
 private:
+	
 };

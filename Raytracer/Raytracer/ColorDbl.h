@@ -2,7 +2,7 @@
 class ColorDbl {
 public:
 	//Constructor
-	ColorDbl(float r, float g, float b);
+	ColorDbl(double r, double g, double b);
 
 	//Destructor
 	~ColorDbl();

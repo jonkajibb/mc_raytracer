@@ -18,7 +18,12 @@ public:
 
 	void rayIntersection(Ray arg);
 
-	void clean();
+	Direction findNormal(Vertex a, Vertex b, Vertex c);
 
 private:
+	Vertex v1;
+	Vertex v2;
+	Vertex v3;
+	ColorDbl color;
+	Direction normal;
 };
