@@ -1,16 +1,30 @@
 //using namespace std;
 
-#include <vector>;
+#include <vector>
+#include <fstream>
 
-#include "ColorDbl.h";
-#include "Triangle.h";
-#include "Vertex.h";
+//#include "SDL.h";
+//#include <stdio.h>
+
+#include "Triangle.h"
+#include "Scene.h"
 
 int main() {
 
 	//cool variables declarations
 	std::vector<Triangle> triangles;
+	
+	//Window size
+	const int H = 800;
+	const int W = 800;
 
+	//Output of a .ppm file (?)
+	std::ofstream out("out.ppm");
+	out << "P3\n" << W << '\n' << H << '\n' << "255\n";
+
+	ColorDbl white (255, 255, 255);
+
+	//Pixel pixel_col[H][W];
 
 	//FLOOR
 	Vertex fv1 = Vertex(0, 6, -5, 0);
@@ -98,5 +112,5 @@ int main() {
 
 
 	//Fill scene with triangles
-	Scene();
+	Scene scene = Scene(triangles);
 }

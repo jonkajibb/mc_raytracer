@@ -10,12 +10,6 @@ Triangle::Triangle(Vertex i1, Vertex i2, Vertex i3, ColorDbl c) {
 	normal = findNormal(v1, v2, v3);
 };
 
-
-/* Destructor: clean up allocated data in a TriangleSoup object */
-Triangle::~Triangle() {
-
-};
-
 Direction Triangle::findNormal(Vertex a, Vertex b, Vertex c) {
 	//FUCKING CROSS PRODUCT
 
@@ -34,3 +28,8 @@ Direction Triangle::findNormal(Vertex a, Vertex b, Vertex c) {
 
 	return Direction(Nx, Ny, Nz);
 };
+
+bool Triangle::rayIntersection(Ray r)
+{
+	//if intersection, return true
+}

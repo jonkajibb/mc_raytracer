@@ -1,3 +1,6 @@
+#ifndef TRIANGLE_HEADER
+#define TRIANGLE_HEADER
+
 //triangle class. Defined by three objects from class Vertex.
 //Has color represented by instance of ColorDbl.
 //Has normal stored as an instance of Direction.
@@ -13,17 +16,18 @@ public:
 	//Constructor
 	Triangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
 
-	//Destructor
-	~Triangle();
-
-	void rayIntersection(Ray arg);
+	bool rayIntersection(Ray r);
 
 	Direction findNormal(Vertex a, Vertex b, Vertex c);
 
-private:
+
 	Vertex v1;
 	Vertex v2;
 	Vertex v3;
 	ColorDbl color;
 	Direction normal;
+private:
+	
 };
+
+#endif

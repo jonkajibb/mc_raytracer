@@ -1,8 +1,8 @@
 //class scene. contains instances of class triangle.
 //scene objects are closed 
 
-#include "Triangle.h";
-#include <vector>;
+#include "Triangle.h"
+#include <vector>
 
 class Scene
 {

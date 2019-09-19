@@ -1,3 +1,6 @@
+#ifndef RAY_HEADER
+#define RAY_HEADER
+
 //triangle class. Defined by three objects from class Vertex.
 //Has color represented by instance of ColorDbl.
 //Has normal stored as an instance of Direction.
@@ -9,10 +12,14 @@ class Ray
 {
 public:
 	//Constructor
-	Ray();
+	Ray(Vertex x, Direction d) : start(x), dir(d) { };
 
-	//Destructor
-	~Ray();
+	Vertex start;
+	Vertex end;
+	Direction dir;
+	ColorDbl color;
 
 private:
 };
+
+#endif
