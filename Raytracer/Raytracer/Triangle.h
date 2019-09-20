@@ -20,6 +20,8 @@ public:
 
 	Direction findNormal(Vertex a, Vertex b, Vertex c);
 
+	double dot(Direction d1, Direction d2);
+
 
 	Vertex v1;
 	Vertex v2;

@@ -16,9 +16,17 @@ public:
 	//Constructor
 	Direction(double x, double y, double z)
 		: X(x), Y(y), Z(z) { };
+	
+	/*
+	double Direction::operator*(Direction d1, Direction d2) {
 
-	//Destructor
-	//~Direction();
+	};
+
+	double dot(Direction& d1, Direction& d2)
+	{
+		double result = d1.X * d2.X + d1.Y * d2.Y + d1.Z * d2.Z;
+		return result;
+	};*/
 
 	//DATA MEMBERS
 	double X;
