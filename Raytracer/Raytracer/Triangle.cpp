@@ -60,54 +60,6 @@ bool Triangle::rayIntersection(Ray r)
 	double t = dot(edge2, Q) * invDet;
 
 	return true;
-
-	/*
-	double D = this->v1.X*r.start.X + this->v1.Y*r.start.Y + this->v1.Z*r.start.Z; //v1 * ray start
-	Direction orig(r.start.X, r.start.Y, r.start.Z);
-
-	//normal*origin
-	double NO = dot(this->normal, orig);
-	//normal*ray direction
-	double NR = dot(this->normal, r.dir);
-
-	double t = -((NO + D) / NR);
-
-	//Check if the triangle is behind the ray (?)
-	if (t < 0) return false;
-
-	Vertex Phit(orig.X + t * r.dir.X, orig.Y + t * r.dir.Y, orig.Z + t * r.dir.Z, 1);  //P = orig + t * r.dir;
-
-	//STEP 2 LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL
-	Direction C;
-
-	//edge 1 (v2 - v1)
-	Direction edge1(this->v2.X - this->v1.X, this->v2.Y - this->v1.Y, this->v2.Z - this->v1.Z);
-	//sdasdasmkd
-	Direction vp1(Phit.X - this->v1.X, Phit.Y - this->v1.Y, Phit.Z - this->v1.Z);
-
-	C = crossProduct(edge1, vp1);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side 
-
-	//edge 2 (v2 - v3)
-	Direction edge2(this->v3.X - this->v2.X, this->v3.Y - this->v2.Y, this->v3.Z - this->v2.Z);
-	//mkdmkmkdmvkv
-	Direction vp2(Phit.X - this->v2.X, Phit.Y - this->v2.Y, Phit.Z - this->v2.Z);
-
-	C = crossProduct(edge2, vp2);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side 
-
-	//edge 3 (v1 - v3)
-	Direction edge3(this->v1.X - this->v3.X, this->v1.Y - this->v3.Y, this->v1.Z - this->v3.Z);
-	//mkdmkmkdmvkv
-	Direction vp3(Phit.X - this->v3.X, Phit.Y - this->v3.Y, Phit.Z - this->v3.Z);
-
-	C = crossProduct(edge3, vp3);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side
-
-	return true; //the ray hits the triangles.*/
 }
 
 Direction Triangle::crossProduct(Direction d1, Direction d2)
