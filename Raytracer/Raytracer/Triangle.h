@@ -22,6 +22,8 @@ public:
 
 	double dot(Direction d1, Direction d2);
 
+	Direction crossProduct(Direction d1, Direction d2);
+
 
 	Vertex v1;
 	Vertex v2;
@@ -29,7 +31,7 @@ public:
 	ColorDbl color;
 	Direction normal;
 private:
-	
+
 };
 
 #endif

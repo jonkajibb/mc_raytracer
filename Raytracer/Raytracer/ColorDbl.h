@@ -12,6 +12,8 @@ public:
 	double G;
 	double B;
 private:
+
+	//friend std::
 };
 
 #endif

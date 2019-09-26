@@ -1,8 +1,3 @@
-﻿  Camera.cpp
-  Direction.cpp
-  main.cpp
-  Triangle.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(70): warning C4189: 't': local variable is initialized but not referenced
-  Generating Code...
+﻿  Triangle.cpp
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(60): warning C4189: 't': local variable is initialized but not referenced
   Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe
