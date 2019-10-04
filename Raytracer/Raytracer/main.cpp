@@ -9,7 +9,6 @@
 #include "Triangle.h"
 #include "Scene.h"
 #include "Camera.h"
-#include "main.h"
 
 int main() {
 
