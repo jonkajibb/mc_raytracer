@@ -9,11 +9,13 @@
 #include "Triangle.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "main.h"
 
 int main() {
 
 	//cool variables declarations
 	std::vector<Triangle> triangles;
+	std::vector<Triangle> tetrahedron;
 
 	Vertex eye(-2, 0, 0, 1);
 
@@ -47,7 +49,7 @@ int main() {
 	Vertex rc = Vertex(5, 0, 5, 1);
 
 	//Triangles for scene
-	/*//FLOOR
+	//FLOOR
 	Triangle ft1 = Triangle(fc, fv1, fv6, red);
 	Triangle ft2 = Triangle(fc, fv1, fv2, red);
 	Triangle ft3 = Triangle(fc, fv3, fv2, red);
@@ -61,7 +63,7 @@ int main() {
 	Triangle rt3 = Triangle(fc, rv2, rv3, blue);
 	Triangle rt4 = Triangle(fc, rv3, rv4, blue);
 	Triangle rt5 = Triangle(fc, rv4, rv5, blue);
-	Triangle rt6 = Triangle(fc, rv5, rv6, blue);*/
+	Triangle rt6 = Triangle(fc, rv5, rv6, blue);
 
 	//WALLS
 	//north west
@@ -83,8 +85,20 @@ int main() {
 	Triangle wt11 = Triangle(fv5, fv6, rv5, blue);
 	Triangle wt12 = Triangle(fv6, rv6, rv5, green);
 
+	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
+	Triangle tetra1;
+	Triangle tetra2;
+	Triangle tetra3;
+	Triangle tetra4;
+		
+	tetra1.createTetrahedron(Vertex(9, 1, 0, 1))[0];
+	tetra2.createTetrahedron(Vertex(9, 1, 0, 1))[1];
+	tetra3.createTetrahedron(Vertex(9, 1, 0, 1))[2];
+	tetra4.createTetrahedron(Vertex(9, 1, 0, 1))[3];
+
+
 	//THE ROOM REPRESENTED AS A VECTOR
-	/*triangles.push_back(ft1);
+	triangles.push_back(ft1);
 	triangles.push_back(ft2);
 	triangles.push_back(ft3);
 	triangles.push_back(ft4);
@@ -95,7 +109,7 @@ int main() {
 	triangles.push_back(rt3);
 	triangles.push_back(rt4);
 	triangles.push_back(rt5);
-	triangles.push_back(rt6);*/
+	triangles.push_back(rt6);
 	triangles.push_back(wt1);
 	triangles.push_back(wt2);
 	triangles.push_back(wt3);
@@ -108,6 +122,10 @@ int main() {
 	triangles.push_back(wt10);
 	triangles.push_back(wt11);
 	triangles.push_back(wt12);
+	triangles.push_back(tetra1);
+	triangles.push_back(tetra2);
+	triangles.push_back(tetra3);
+	triangles.push_back(tetra4);
 
 	//Fill scene with triangles
 	Scene s = Scene(triangles);

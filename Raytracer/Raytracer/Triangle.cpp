@@ -4,6 +4,15 @@
 
 const double EPS = 1e-4;
 
+Triangle::Triangle()
+{
+	v1;
+	v2;
+	v3;
+	color;
+	normal;
+}
+
 /* Constructor: initialize a TriangleSoup object to an empty object */
 Triangle::Triangle(Vertex i1, Vertex i2, Vertex i3, ColorDbl c) {
 	v1 = i1;
@@ -117,6 +126,42 @@ Direction Triangle::crossProduct(Direction d1, Direction d2)
 	double Nz = d1.X * d2.Y - d1.Y * d2.X;
 
 	return Direction(Nx, Ny, Nz);
+}
+
+std::vector<Triangle> Triangle::createTetrahedron(Vertex origo)
+{
+	Vertex v1, v2, v3, v4;
+	ColorDbl c(140, 10, 240);
+
+	std::vector<Triangle> tetra;
+
+	v1.X = origo.X + 1;
+	v1.Y = origo.Y;
+	v1.Z = origo.Z - -1 / sqrt(2);
+
+	v2.X = origo.X - 1;
+	v2.Y = origo.Y;
+	v2.Z = origo.Z - (-1 / sqrt(2));
+
+	v3.X = origo.X;
+	v3.Y = origo.Y + 1;
+	v3.Z = origo.Z + (-1 / sqrt(2));
+
+	v4.X = origo.X;
+	v4.Y = origo.Y - 1;
+	v4.Z = origo.Z + (-1 / sqrt(2));
+
+	Triangle t1(v1, v3, v4, c);
+	Triangle t2(v1, v2, v3, c);
+	Triangle t3(v1, v4, v2, c);
+	Triangle t4(v2, v4, v3, c);
+
+	tetra.push_back(t1);
+	tetra.push_back(t2);
+	tetra.push_back(t3);
+	tetra.push_back(t4);
+
+	return tetra;
 }
 
 double Triangle::dot(Direction d1, Direction d2)
