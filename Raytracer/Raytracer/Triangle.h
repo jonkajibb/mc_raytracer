@@ -19,7 +19,7 @@ public:
 	//Constructor
 	Triangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
 
-	bool rayIntersection(Ray r);
+	bool rayIntersection(Ray &r, double &t);
 
 	Direction findNormal(Vertex a, Vertex b, Vertex c);
 
@@ -27,7 +27,7 @@ public:
 
 	Direction crossProduct(Direction d1, Direction d2);
 
-	std::vector<Triangle> createTetrahedron(Vertex origo);
+	std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
 
 
 

@@ -1,15 +1,2 @@
-﻿  Camera.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(64): warning C4100: 'hCoor': unreferenced formal parameter
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(64): warning C4100: 'wCoor': unreferenced formal parameter
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(64): warning C4100: 'c': unreferenced formal parameter
-  Triangle.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(69): warning C4189: 't': local variable is initialized but not referenced
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(133): warning C4458: declaration of 'v1' hides class member
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.h(34): note: see declaration of 'Triangle::v1'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(133): warning C4458: declaration of 'v2' hides class member
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.h(35): note: see declaration of 'Triangle::v2'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.cpp(133): warning C4458: declaration of 'v3' hides class member
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.h(36): note: see declaration of 'Triangle::v3'
-  main.cpp
-  Generating Code...
+﻿  main.cpp
   Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe

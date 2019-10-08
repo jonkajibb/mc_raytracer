@@ -9,6 +9,8 @@ void Camera::render(Scene s)
 	//center: y+0.00125, z-0.00125
 	double length = 0.0025;
 	double hLength = 0.00125; //half length
+	
+
 
 	std::ofstream out("out.ppm");
 
@@ -35,20 +37,32 @@ void Camera::render(Scene s)
 
 			Direction dir(currentP.X - eye1.X, currentP.Y - eye1.Y, currentP.Z - eye1.Z);
 
-			Ray ray(eye1, dir);
+			Ray ray = Ray(eye1, dir);
 
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
+			double t;
+			double minDistance = 1000;
+			Triangle minTriangle;
 			for (unsigned i = 0; i < s.object.size(); i++)
 			{
-				if (s.object[i].rayIntersection(ray))
+				if (s.object[i].rayIntersection(ray, t))
 				{
-					pixels[w][h] = s.object[i].color;
+					
+					//A triangle has been intersected, save t (distance between camera and triangle)
+					if (t < minDistance) {
+						minDistance = t;
+						minTriangle = s.object[i];
+					}
+
+					//pixels[w][h] = s.object[i].color;
 
 					//createImage(s.object[i].color, w, h);
-					break;
+					//break;
 				}
 			}
+			pixels[w][h] = minTriangle.color;
+
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			
 			out << pixels[w][h].color.R << ", " << pixels[w][h].color.G << ", " << pixels[w][h].color.B << std::endl;

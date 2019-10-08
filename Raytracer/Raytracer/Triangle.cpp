@@ -41,7 +41,7 @@ Direction Triangle::findNormal(Vertex a, Vertex b, Vertex c) {
 	return Direction(Nx, Ny, Nz);
 };
 
-bool Triangle::rayIntersection(Ray r)
+bool Triangle::rayIntersection(Ray &r, double &t)
 {
 	Direction edge1(this->v2.X - this->v1.X, this->v2.Y - this->v1.Y, this->v2.Z - this->v1.Z);
 	Direction edge2(this->v3.X - this->v1.X, this->v3.Y - this->v1.Y, this->v3.Z - this->v1.Z);
@@ -66,57 +66,9 @@ bool Triangle::rayIntersection(Ray r)
 	double v = dot(r.dir, Q) * invDet;
 	if (v < 0 || u + v > 1) return false;
 
-	double t = dot(edge2, Q) * invDet;
+	t = dot(edge2, Q) * invDet;
 
 	return true;
-
-	/*
-	double D = this->v1.X*r.start.X + this->v1.Y*r.start.Y + this->v1.Z*r.start.Z; //v1 * ray start
-	Direction orig(r.start.X, r.start.Y, r.start.Z);
-
-	//normal*origin
-	double NO = dot(this->normal, orig);
-	//normal*ray direction
-	double NR = dot(this->normal, r.dir);
-
-	double t = -((NO + D) / NR);
-
-	//Check if the triangle is behind the ray (?)
-	if (t < 0) return false;
-
-	Vertex Phit(orig.X + t * r.dir.X, orig.Y + t * r.dir.Y, orig.Z + t * r.dir.Z, 1);  //P = orig + t * r.dir;
-
-	//STEP 2 LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL
-	Direction C;
-
-	//edge 1 (v2 - v1)
-	Direction edge1(this->v2.X - this->v1.X, this->v2.Y - this->v1.Y, this->v2.Z - this->v1.Z);
-	//sdasdasmkd
-	Direction vp1(Phit.X - this->v1.X, Phit.Y - this->v1.Y, Phit.Z - this->v1.Z);
-
-	C = crossProduct(edge1, vp1);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side 
-
-	//edge 2 (v2 - v3)
-	Direction edge2(this->v3.X - this->v2.X, this->v3.Y - this->v2.Y, this->v3.Z - this->v2.Z);
-	//mkdmkmkdmvkv
-	Direction vp2(Phit.X - this->v2.X, Phit.Y - this->v2.Y, Phit.Z - this->v2.Z);
-
-	C = crossProduct(edge2, vp2);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side 
-
-	//edge 3 (v1 - v3)
-	Direction edge3(this->v1.X - this->v3.X, this->v1.Y - this->v3.Y, this->v1.Z - this->v3.Z);
-	//mkdmkmkdmvkv
-	Direction vp3(Phit.X - this->v3.X, Phit.Y - this->v3.Y, Phit.Z - this->v3.Z);
-
-	C = crossProduct(edge3, vp3);
-
-	if (dot(this->normal, C) < 0) return false; // P is on the right side
-
-	return true; //the ray hits the triangles.*/
 }
 
 Direction Triangle::crossProduct(Direction d1, Direction d2)
@@ -128,33 +80,33 @@ Direction Triangle::crossProduct(Direction d1, Direction d2)
 	return Direction(Nx, Ny, Nz);
 }
 
-std::vector<Triangle> Triangle::createTetrahedron(Vertex origo)
+std::vector<Triangle> Triangle::createTetrahedron(Vertex origo, ColorDbl clr)
 {
-	Vertex v1, v2, v3, v4;
-	ColorDbl c(140, 10, 240);
+	Vertex a, b, c, d;
+	ColorDbl col(140, 10, 240);
 
 	std::vector<Triangle> tetra;
 
-	v1.X = origo.X + 1;
-	v1.Y = origo.Y;
-	v1.Z = origo.Z - -1 / sqrt(2);
+	a.X = origo.X + 1;
+	a.Y = origo.Y;
+	a.Z = origo.Z - -1 / sqrt(2);
 
-	v2.X = origo.X - 1;
-	v2.Y = origo.Y;
-	v2.Z = origo.Z - (-1 / sqrt(2));
+	b.X = origo.X - 1;
+	b.Y = origo.Y;
+	b.Z = origo.Z - (-1 / sqrt(2));
 
-	v3.X = origo.X;
-	v3.Y = origo.Y + 1;
-	v3.Z = origo.Z + (-1 / sqrt(2));
+	c.X = origo.X;
+	c.Y = origo.Y + 1;
+	c.Z = origo.Z + (-1 / sqrt(2));
 
-	v4.X = origo.X;
-	v4.Y = origo.Y - 1;
-	v4.Z = origo.Z + (-1 / sqrt(2));
+	d.X = origo.X;
+	d.Y = origo.Y - 1;
+	d.Z = origo.Z + (-1 / sqrt(2));
 
-	Triangle t1(v1, v3, v4, c);
-	Triangle t2(v1, v2, v3, c);
-	Triangle t3(v1, v4, v2, c);
-	Triangle t4(v2, v4, v3, c);
+	Triangle t1(a, c, d, clr);
+	Triangle t2(a, b, c, clr);
+	Triangle t3(a, d, b, clr);
+	Triangle t4(b, d, c, clr);
 
 	tetra.push_back(t1);
 	tetra.push_back(t2);
