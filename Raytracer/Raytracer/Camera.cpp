@@ -50,19 +50,18 @@ void Camera::render(Scene s)
 			{
 				if (s.tris[i].rayIntersection(ray, t))
 				{
-					
 					//A triangle has been intersected, save t (distance between camera and triangle)
 					if (t < minDistance) {
 						minDistance = t;
 						minTriangle = s.tris[i];
-
+						//Determine endpoint of ray, used in shading
+						//ray.endTri = minTriangle;
 						ray.end = Vertex(ray.start.X + ray.dir.X*t,
 							ray.start.Y + ray.dir.Y*t,
 							ray.start.Z + ray.dir.Z*t, 1);
 					}
 				}
 			}
-
 			//Check if a sphere was also intersected, to set d
 			for (int j = 0; j < s.spheres.size(); j++)
 			{
@@ -71,15 +70,15 @@ void Camera::render(Scene s)
 				}
 			}
 
+			//ColorDbl shadedColor = ray.shadowRay(ray, s.light);
+
+			//Check if sphere is in front of the triangle
 			if (d < t) {
 				pixels[w][h] = minSphere.color;
 			}
 			else {
 				pixels[w][h] = minTriangle.color;// minTriangle.color;
 			}
-
-			//pixels[w][h] = minTriangle.color;
-
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			
 			out << pixels[w][h].color.R << ", " << pixels[w][h].color.G << ", " << pixels[w][h].color.B << std::endl;

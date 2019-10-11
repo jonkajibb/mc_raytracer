@@ -5,16 +5,15 @@
 //scene objects are closed 
 
 #include "Triangle.h"
-#include "Sphere.h"
 #include <vector>
+#include "Sphere.h"
 
 class Scene
 {
 public:
 
-	//Scene(std::vector<Triangle> triangles) : object(triangles) { };
-
-	//std::vector<Triangle> object;
+	//Scene(std::vector<Triangle> triangles) : tris(triangles) { };
+	//Scene(std::vector<Sphere> sph) : spheres(sph) { };
 
 	std::vector<Triangle> tris;
 	std::vector<Sphere> spheres;
