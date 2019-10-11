@@ -16,9 +16,13 @@ int main() {
 	std::vector<Triangle> triangles;
 	std::vector<Triangle> tetrahedron;
 
+	//Position of camera
 	Vertex eye(-2, 0, 0, 1);
-
+	//Camera
 	Camera cam(eye);
+	
+	//Scene
+	Scene s;
 
 	ColorDbl white(255, 255, 255);
 	ColorDbl red(255, 0, 0);
@@ -128,7 +132,21 @@ int main() {
 	//triangles.push_back(bajs);
 
 	//Fill scene with triangles
-	Scene s = Scene(triangles);
+	s.tris = triangles;
+
+	//SKAPA SFÄÄÄÄÄÄÄR
+	Vertex sphere1(10, 3, -0.5, 1);
+	Vertex sphere2(10.5, -2.5, 1.5, 1);
+
+	std::vector<Sphere> spheres;
+	spheres.push_back(Sphere(sphere1, 1.0, white));
+	spheres.push_back(Sphere(sphere2, 1.4, white));
+
+	//Fill scene with triangles, spheres and lights
+	s.tris = triangles;
+	s.spheres = spheres;
+	Vertex light(5, 0, 5, 1);
+	s.light = light;
 
 	//Render "scene"
 	cam.render(s);

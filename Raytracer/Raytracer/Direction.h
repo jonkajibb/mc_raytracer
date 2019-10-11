@@ -16,16 +16,19 @@ public:
 	//Constructor
 	Direction(double x, double y, double z)
 		: X(x), Y(y), Z(z) { };
-	
-	/*
-	double Direction::operator*(Direction d1, Direction d2) {
 
+	double dot(Direction& d1)// , Direction& d2)
+	{
+		double result = X * d1.X + Y * d1.Y + Z * d1.Z;
+		return result;
 	};
 
-	double dot(Direction& d1, Direction& d2)
-	{
-		double result = d1.X * d2.X + d1.Y * d2.Y + d1.Z * d2.Z;
-		return result;
+	Direction operator*(double const num) {
+		return Direction(X*num, Y*num, Z*num);
+	};
+
+	/*Direction operator-(Vertex const &v1, Vertex const &v2) {
+		return Direction(this.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 	};*/
 
 	//DATA MEMBERS
@@ -34,7 +37,7 @@ public:
 	double Z;
 
 private:
-	
+
 };
 
 #endif

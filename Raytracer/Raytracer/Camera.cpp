@@ -42,26 +42,43 @@ void Camera::render(Scene s)
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
 			double t;
+			double d = 1000;
 			double minDistance = 1000;
 			Triangle minTriangle;
-			for (unsigned i = 0; i < s.object.size(); i++)
+			Sphere minSphere;
+			for (unsigned i = 0; i < s.tris.size(); i++)
 			{
-				if (s.object[i].rayIntersection(ray, t))
+				if (s.tris[i].rayIntersection(ray, t))
 				{
 					
 					//A triangle has been intersected, save t (distance between camera and triangle)
 					if (t < minDistance) {
 						minDistance = t;
-						minTriangle = s.object[i];
+						minTriangle = s.tris[i];
+
+						ray.end = Vertex(ray.start.X + ray.dir.X*t,
+							ray.start.Y + ray.dir.Y*t,
+							ray.start.Z + ray.dir.Z*t, 1);
 					}
-
-					//pixels[w][h] = s.object[i].color;
-
-					//createImage(s.object[i].color, w, h);
-					//break;
 				}
 			}
-			pixels[w][h] = minTriangle.color;
+
+			//Check if a sphere was also intersected, to set d
+			for (int j = 0; j < s.spheres.size(); j++)
+			{
+				if (s.spheres[j].sphereIntersection(ray, d)) {
+					minSphere = s.spheres[j];
+				}
+			}
+
+			if (d < t) {
+				pixels[w][h] = minSphere.color;
+			}
+			else {
+				pixels[w][h] = minTriangle.color;// minTriangle.color;
+			}
+
+			//pixels[w][h] = minTriangle.color;
 
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			
