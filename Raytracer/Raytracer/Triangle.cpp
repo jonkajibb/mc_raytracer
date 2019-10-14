@@ -1,6 +1,5 @@
+
 #include "Triangle.h"
-#include "Direction.h"
-#include "math.h"
 
 const double EPS = 1e-4;
 
@@ -38,7 +37,7 @@ Direction Triangle::findNormal(Vertex a, Vertex b, Vertex c) {
 	Ny = U.Z * V.X - U.X * V.Z;
 	Nz = U.X * V.Y - U.Y * V.X;
 
-	return Direction(Nx, Ny, Nz);
+	return Direction(Nx, Ny, Nz).normalize();
 };
 
 bool Triangle::rayIntersection(Ray &r, double &t)
@@ -46,7 +45,7 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 	Direction edge1(this->v2.X - this->v1.X, this->v2.Y - this->v1.Y, this->v2.Z - this->v1.Z);
 	Direction edge2(this->v3.X - this->v1.X, this->v3.Y - this->v1.Y, this->v3.Z - this->v1.Z);
 	Direction P = crossProduct(r.dir, edge2);
-	double det = dot(edge1, P);
+	double det = edge1.dot(P);
 
 	//if culling (triangle is backfacing)
 	if (det < EPS) {
@@ -66,7 +65,11 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 	double v = dot(r.dir, Q) * invDet;
 	if (v < 0 || u + v > 1) return false;
 
-	t = dot(edge2, Q) * invDet;
+	t = edge2.dot(Q) * invDet;
+
+	r.end = Vertex(r.start.X + r.dir.X*t,
+		r.start.Y + r.dir.Y*t,
+		r.start.Z + r.dir.Z*t, 1);
 
 	return true;
 }
@@ -83,30 +86,34 @@ Direction Triangle::crossProduct(Direction d1, Direction d2)
 std::vector<Triangle> Triangle::createTetrahedron(Vertex origo, ColorDbl clr)
 {
 	Vertex a, b, c, d;
-	ColorDbl col(140, 10, 240);
+	ColorDbl col(255, 200, 200);
 
 	std::vector<Triangle> tetra;
 
-	a.X = origo.X + 1;
+	//closest
+	a.X = origo.X - 1.5;
 	a.Y = origo.Y;
-	a.Z = origo.Z - -1 / sqrt(2);
+	a.Z = origo.Z - 1.5;
 
-	b.X = origo.X - 1;
-	b.Y = origo.Y;
-	b.Z = origo.Z - (-1 / sqrt(2));
+	//back left
+	b.X = origo.X + 1;
+	b.Y = origo.Y + 1.5;
+	b.Z = origo.Z - 1.5;
 
-	c.X = origo.X;
-	c.Y = origo.Y + 1;
-	c.Z = origo.Z + (-1 / sqrt(2));
+	//back right
+	c.X = origo.X + 1.5;
+	c.Y = origo.Y - 1.5;
+	c.Z = origo.Z - 1.5;
 
+	//top
 	d.X = origo.X;
-	d.Y = origo.Y - 1;
-	d.Z = origo.Z + (-1 / sqrt(2));
+	d.Y = origo.Y;
+	d.Z = origo.Z + 1;
 
-	Triangle t1(a, c, d, clr);
-	Triangle t2(a, b, c, clr);
-	Triangle t3(a, d, b, clr);
-	Triangle t4(b, d, c, clr);
+	Triangle t1(a, d, b, clr);
+	Triangle t2(b, d, c, clr);
+	Triangle t3(a, c, d, clr);
+	Triangle t4(a, b, c, clr);
 
 	tetra.push_back(t1);
 	tetra.push_back(t2);
@@ -121,4 +128,58 @@ double Triangle::dot(Direction d1, Direction d2)
 	double result = d1.X*d2.X + d1.Y*d2.Y + d1.Z*d2.Z;
 
 	return result;
+};
+
+ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> triangles) {
+	bool intersected = false;
+	double t = 1000;
+	double angle;
+	double minDistance = 10000;
+
+	Triangle minTriangle;
+	ColorDbl col;
+	Direction d(l.pos.X - importance.end.X, l.pos.Y - importance.end.Y, l.pos.Z - importance.end.Z);
+
+	ColorDbl light_i = l.color * l.intensity; //Light color*intenisty
+
+	Ray sRay(importance.end, d);
+	d = d.normalize();
+	//Angle between importance ray endpoint normal and sRay's direction
+	angle = std::max(0.0, d.dot(this->normal));
+	//std::cout << angle << std::endl;
+
+	//Check if shadowray intersects a surface -> shadow
+	//has to check if the intersected surface is between
+	//the light source and the shadowray origin point
+	for (int i = 0; i < triangles.size(); i++)
+	{
+		if (triangles[i].rayIntersection(sRay, t))
+		{
+			if (t < minDistance) {
+				minDistance = t;
+				minTriangle = triangles[i];
+				//Determine endpoint of ray, used in shading
+				//ray.endTri = minTriangle;
+			}
+		}
+	}
+
+	Direction newD(l.pos.X - importance.end.X, l.pos.Y - importance.end.Y, l.pos.Z - importance.end.Z);
+	Direction isec(sRay.end.X - importance.end.X, sRay.end.Y - importance.end.Y, sRay.end.Z - importance.end.Z);
+	if (isec.getScalar() < newD.getScalar()) {
+		intersected = true;
+	}
+
+	if (angle < 0) {
+		col = this->color;
+	}
+	else if(!intersected){
+		col = this->color * angle * light_i;
+	}
+	else if (intersected) {
+		col = this->color * 0.4;
+	}
+
+	//Check if sRay intersects something
+	return col;
 };

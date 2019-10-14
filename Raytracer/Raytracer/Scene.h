@@ -5,8 +5,10 @@
 //scene objects are closed 
 
 #include "Triangle.h"
-#include <vector>
 #include "Sphere.h"
+#include "Light.h"
+#include <vector>
+
 
 class Scene
 {
@@ -17,7 +19,7 @@ public:
 
 	std::vector<Triangle> tris;
 	std::vector<Sphere> spheres;
-	Vertex light;
+	Light light;
 
 private:
 };

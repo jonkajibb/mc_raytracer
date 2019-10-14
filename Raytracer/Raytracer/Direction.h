@@ -7,6 +7,7 @@
 
 #include "Vertex.h"
 #include "ColorDbl.h"
+#include <math.h>
 
 class Direction
 {
@@ -25,6 +26,20 @@ public:
 
 	Direction operator*(double const num) {
 		return Direction(X*num, Y*num, Z*num);
+	};
+
+	Direction normalize() {
+		X = X / sqrt(X*X + Y * Y + Z * Z);
+		Y = Y / sqrt(X*X + Y * Y + Z * Z);
+		Z = Z / sqrt(X*X + Y * Y + Z * Z);
+
+		return Direction(X, Y, Z);
+	};
+
+	double getScalar() {
+		double s;
+		s = sqrt(this->X*this->X + this->Y*this->Y + this->Z*this->Z);
+		return s;
 	};
 
 	/*Direction operator-(Vertex const &v1, Vertex const &v2) {

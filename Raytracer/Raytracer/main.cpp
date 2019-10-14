@@ -17,11 +17,15 @@ int main() {
 	std::vector<Triangle> triangles;
 	std::vector<Triangle> tetrahedron;
 
-	Vertex eye(-2, 0, 0, 1);
+	Vertex eye(-1, 0, 0, 1);
 
 	Camera cam(eye);
 
 	ColorDbl white(255, 255, 255);
+	ColorDbl gray(100, 100, 100);
+	ColorDbl offwhite(230, 230, 230);
+	ColorDbl lightblue(210, 210, 255);
+	ColorDbl lightgreen(30, 255, 30);
 	ColorDbl red(255, 0, 0);
 	ColorDbl green(0, 255, 0);
 	ColorDbl blue(0, 0, 255);
@@ -51,20 +55,20 @@ int main() {
 
 	//Triangles for scene
 	//FLOOR
-	Triangle ft1 = Triangle(fc, fv1, fv6, red);
-	Triangle ft2 = Triangle(fc, fv2, fv1, red);
-	Triangle ft3 = Triangle(fc, fv3, fv2, red);
-	Triangle ft4 = Triangle(fc, fv4, fv3, red);
-	Triangle ft5 = Triangle(fc, fv5, fv4, red);
-	Triangle ft6 = Triangle(fc, fv6, fv5, red);
+	Triangle ft1 = Triangle(fc, fv1, fv6, offwhite);
+	Triangle ft2 = Triangle(fc, fv2, fv1, offwhite);
+	Triangle ft3 = Triangle(fc, fv3, fv2, offwhite);
+	Triangle ft4 = Triangle(fc, fv4, fv3, offwhite);
+	Triangle ft5 = Triangle(fc, fv5, fv4, offwhite);
+	Triangle ft6 = Triangle(fc, fv6, fv5, offwhite);
 
 	//ROOF
-	Triangle rt1 = Triangle(rc, rv1, rv6, blue);
-	Triangle rt2 = Triangle(rc, rv1, rv2, blue);
-	Triangle rt3 = Triangle(rc, rv2, rv3, blue);
-	Triangle rt4 = Triangle(rc, rv3, rv4, blue);
-	Triangle rt5 = Triangle(rc, rv4, rv5, blue);
-	Triangle rt6 = Triangle(rc, rv6, rv5, blue);
+	Triangle rt1 = Triangle(rc, rv6, rv1, lightblue);
+	Triangle rt2 = Triangle(rc, rv1, rv2, lightblue);
+	Triangle rt3 = Triangle(rc, rv2, rv3, lightblue);
+	Triangle rt4 = Triangle(rc, rv3, rv4, lightblue);
+	Triangle rt5 = Triangle(rc, rv4, rv5, lightblue);
+	Triangle rt6 = Triangle(rc, rv5, rv6, lightblue);
 
 	//WALLS
 	//north west
@@ -74,11 +78,11 @@ int main() {
 	Triangle wt3 = Triangle(fv1, fv2, rv1, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, orange);
 	//north east
-	Triangle wt5 = Triangle(fv2, fv3, rv2, orange);
-	Triangle wt6 = Triangle(fv3, rv3, rv2, orange);
+	Triangle wt5 = Triangle(fv2, fv3, rv2, lightgreen);
+	Triangle wt6 = Triangle(fv3, rv3, rv2, lightgreen);
 	//south east
-	Triangle wt7 = Triangle(fv3, fv4, rv3, orange);
-	Triangle wt8 = Triangle(fv4, rv4, rv3, orange);
+	Triangle wt7 = Triangle(fv3, fv4, rv3, lightgreen);
+	Triangle wt8 = Triangle(fv4, rv4, rv3, lightgreen);
 	//south
 	Triangle wt9 = Triangle(fv4, fv5, rv4, orange);
 	Triangle wt10 = Triangle(fv5, rv5, rv4, orange);
@@ -89,7 +93,7 @@ int main() {
 	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
 	std::vector<Triangle> tetra1;
 	Triangle asd; //skittriangel
-	tetra1 = asd.createTetrahedron(Vertex(9, -1, 0, 1), green);
+	tetra1 = asd.createTetrahedron(Vertex(8, -1, 0, 1), blue);
 
 	/*
 	Vertex a(8, 1, 0, 1);
@@ -126,18 +130,17 @@ int main() {
 	triangles.push_back(tetra1[1]);
 	triangles.push_back(tetra1[2]);
 	triangles.push_back(tetra1[3]);
-	//triangles.push_back(bajs);
 
 	//SKAPA SFÄÄÄÄÄÄÄR
 	Vertex asdf(10, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
-	spheres.push_back(Sphere(asdf, 1.0, white));
+	//spheres.push_back(Sphere(asdf, 1.0, white));
 
 	//Fill scene with triangles, spheres and lights
 	Scene s;
 	s.tris = triangles;
 	s.spheres = spheres;
-	Vertex light(5, 0, 5, 1);
+	Light light(Vertex(5.0, 0.0, 4.7, 1), 0.9, white);
 	s.light = light;
 
 	//Render "scene"

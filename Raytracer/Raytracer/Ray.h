@@ -6,13 +6,15 @@
 //Has normal stored as an instance of Direction.
 
 #include "Vertex.h"
-#include "ColorDbl.h"
+#include "Direction.h"
 
 class Ray
 {
 public:
 	//Constructor
 	Ray(Vertex x, Direction d) : start(x), dir(d) { };
+
+	//ColorDbl shadowRay(Triangle &hitTri, Ray &importance, Vertex light);
 
 	Vertex start;
 	Vertex end;

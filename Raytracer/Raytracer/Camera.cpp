@@ -56,9 +56,6 @@ void Camera::render(Scene s)
 						minTriangle = s.tris[i];
 						//Determine endpoint of ray, used in shading
 						//ray.endTri = minTriangle;
-						ray.end = Vertex(ray.start.X + ray.dir.X*t,
-							ray.start.Y + ray.dir.Y*t,
-							ray.start.Z + ray.dir.Z*t, 1);
 					}
 				}
 			}
@@ -77,7 +74,8 @@ void Camera::render(Scene s)
 				pixels[w][h] = minSphere.color;
 			}
 			else {
-				pixels[w][h] = minTriangle.color;// minTriangle.color;
+				pixels[w][h] = minTriangle.shading(ray, s.light, s.tris);
+				//pixels[w][h] = minTriangle.color;
 			}
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			

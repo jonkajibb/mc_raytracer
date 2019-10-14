@@ -122,6 +122,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorDbl.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Scene.h" />

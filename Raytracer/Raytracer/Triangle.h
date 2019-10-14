@@ -5,11 +5,15 @@
 //Has color represented by instance of ColorDbl.
 //Has normal stored as an instance of Direction.
 
-#include "Vertex.h"
-#include "ColorDbl.h"
-#include "Direction.h"	
-#include "Ray.h"	
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+#include <algorithm>
+
+#include "Light.h"
+#include "Ray.h"
+#include "math.h"
+#include "ColorDbl.h"
 
 class Triangle
 {
@@ -29,7 +33,7 @@ public:
 
 	std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
 
-
+	ColorDbl shading(Ray &importance, Light l, std::vector<Triangle> triangles);
 
 	Vertex v1;
 	Vertex v2;
