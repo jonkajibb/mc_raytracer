@@ -9,30 +9,29 @@ void Camera::render(Scene s)
 	//center: y+0.00125, z-0.00125
 	double length = 0.0025;
 	double hLength = 0.00125; //half length
-	
-
+	Direction sphereNormal;
 
 	std::ofstream out("out.ppm");
 
-	out << "P3\n" << W << '\n' << H << '\n' << "255\n";
+	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
 
-	for (int i = 0; i < W; i++)
+	/*for (int i = 0; i < W; i++)
 	{
 		image[i] = new Vertex[W];
 		pixels[i] = new Pixel[W];
-	}
+	}*/
 
-	Vertex currentP(0, -1 + hLength, 1 - hLength, 1);
-
-	std::cout << image[0][0].X << std::endl;
+	Vertex currentP(0, 1 - hLength, 1 - hLength, 1);
+	//Vertex startingPos = currentP;
+	//std::cout << image[0][0].X << std::endl;
 
 	//Build image plane, 800x800 vertices
 	for (int h = 0; h < H; h++)
 	{
-		for (int w = 0; w < W; w++)
+		for (int w = 799; w >= 0; w--)
 		{
 
-			image[w][h] = currentP;
+			//pixelPlane[h][w] = currentP;
 			//std::cout << image[w][h].X << std::endl;
 
 			Direction dir(currentP.X - eye1.X, currentP.Y - eye1.Y, currentP.Z - eye1.Z);
@@ -62,30 +61,39 @@ void Camera::render(Scene s)
 			//Check if a sphere was also intersected, to set d
 			for (int j = 0; j < s.spheres.size(); j++)
 			{
-				if (s.spheres[j].sphereIntersection(ray, d)) {
+				if (s.spheres[j].sphereIntersection(ray, d, sphereNormal)) {
 					minSphere = s.spheres[j];
 				}
 			}
 
-			//ColorDbl shadedColor = ray.shadowRay(ray, s.light);
-
 			//Check if sphere is in front of the triangle
 			if (d < t) {
-				pixels[w][h] = minSphere.color;
+				pixelPlane[w][h] = minSphere.color;
 			}
 			else {
-				pixels[w][h] = minTriangle.shading(ray, s.light, s.tris);
-				//pixels[w][h] = minTriangle.color;
+				Direction lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+				lightDir.normalize();
+				double angle = lightDir.dot(minTriangle.normal);
+				//std::cout << angle << std::endl;
+				if (angle < 0) {
+					pixelPlane[w][h] = minTriangle.color * 0;
+				}
+				else {
+					pixelPlane[w][h] = minTriangle.color * angle;
+				}
 			}
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			
-			out << pixels[w][h].color.R << ", " << pixels[w][h].color.G << ", " << pixels[w][h].color.B << std::endl;
+			out << pixelPlane[w][h].color.R 
+				<< ", " << pixelPlane[w][h].color.G 
+				<< ", " << pixelPlane[w][h].color.B 
+				<< std::endl;
 
-			currentP.Y = currentP.Y + 0.0025;
+			currentP.Y = currentP.Y - length;
 		}
 
 		currentP.Z = currentP.Z - length; //step down
-		currentP.Y = -1 + hLength; //start from first position again
+		currentP.Y = 1 - hLength; //start from first position again
 	}
 }
 

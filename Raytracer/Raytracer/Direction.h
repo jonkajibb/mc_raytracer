@@ -20,7 +20,7 @@ public:
 
 	double dot(Direction& d1)// , Direction& d2)
 	{
-		double result = X * d1.X + Y * d1.Y + Z * d1.Z;
+		double result = (X * d1.X) + (Y * d1.Y) + (Z * d1.Z);
 		return result;
 	};
 
@@ -29,9 +29,9 @@ public:
 	};
 
 	Direction normalize() {
-		X = X / sqrt(X*X + Y * Y + Z * Z);
-		Y = Y / sqrt(X*X + Y * Y + Z * Z);
-		Z = Z / sqrt(X*X + Y * Y + Z * Z);
+		X = X / sqrt((X*X) + (Y * Y) + (Z * Z));
+		Y = Y / sqrt((X*X) + (Y * Y) + (Z * Z));
+		Z = Z / sqrt((X*X) + (Y * Y) + (Z * Z));
 
 		return Direction(X, Y, Z);
 	};

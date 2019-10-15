@@ -34,7 +34,7 @@ Direction Triangle::findNormal(Vertex a, Vertex b, Vertex c) {
 	Direction V = Direction(c.X - a.X, c.Y - a.Y, c.Z - a.Z);
 
 	Nx = U.Y * V.Z - U.Z * V.Y;
-	Ny = U.Z * V.X - U.X * V.Z;
+	Ny = -(U.X * V.Z - U.Z * V.X);
 	Nz = U.X * V.Y - U.Y * V.X;
 
 	return Direction(Nx, Ny, Nz).normalize();
@@ -130,6 +130,7 @@ double Triangle::dot(Direction d1, Direction d2)
 	return result;
 };
 
+/*
 ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> triangles) {
 	bool intersected = false;
 	double t = 1000;
@@ -144,6 +145,7 @@ ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> trian
 
 	Ray sRay(importance.end, d);
 	d = d.normalize();
+
 	//Angle between importance ray endpoint normal and sRay's direction
 	angle = std::max(0.0, d.dot(this->normal));
 	//std::cout << angle << std::endl;
@@ -174,7 +176,7 @@ ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> trian
 		col = this->color;
 	}
 	else if(!intersected){
-		col = this->color * angle * light_i;
+		col = this->color * angle; //* light_i;
 	}
 	else if (intersected) {
 		col = this->color * 0.4;
@@ -182,4 +184,4 @@ ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> trian
 
 	//Check if sRay intersects something
 	return col;
-};
+};*/

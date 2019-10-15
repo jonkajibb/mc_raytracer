@@ -19,7 +19,7 @@ int main() {
 
 	Vertex eye(-1, 0, 0, 1);
 
-	Camera cam(eye);
+	Camera cam;
 
 	ColorDbl white(255, 255, 255);
 	ColorDbl gray(100, 100, 100);
@@ -77,8 +77,10 @@ int main() {
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, orange);
+	std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
-	Triangle wt5 = Triangle(fv2, fv3, rv2, lightgreen);
+	Triangle wt5 = Triangle(rv2, fv2, fv3, lightblue);// fv2, fv3, rv2, lightgreen);
+	std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
 	Triangle wt6 = Triangle(fv3, rv3, rv2, lightgreen);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, lightgreen);
@@ -91,10 +93,49 @@ int main() {
 	Triangle wt12 = Triangle(fv6, rv6, rv5, orange);
 
 	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
-	std::vector<Triangle> tetra1;
-	Triangle asd; //skittriangel
-	tetra1 = asd.createTetrahedron(Vertex(8, -1, 0, 1), blue);
+	//std::vector<Triangle> tetra1;
+	//Triangle asd; //skittriangel
+	//tetra1 = asd.createTetrahedron(Vertex(8, -1, 0, 1), blue);
 
+	Vertex origo = Vertex(8, -1, 0, 1);
+	Vertex a, b, c, d;
+	ColorDbl col(255, 200, 200);
+
+	std::vector<Triangle> tetra;
+
+	//closest
+	a.X = origo.X - 1.5;
+	a.Y = origo.Y;
+	a.Z = origo.Z - 1.5;
+
+	//back left
+	b.X = origo.X + 1;
+	b.Y = origo.Y + 1.5;
+	b.Z = origo.Z - 1.5;
+
+	//back right
+	c.X = origo.X + 1.5;
+	c.Y = origo.Y - 1.5;
+	c.Z = origo.Z - 1.5;
+
+	//top
+	d.X = origo.X;
+	d.Y = origo.Y;
+	d.Z = origo.Z + 1;
+
+	Triangle t1(a, d, b, blue);
+	std::cout << t1.normal.X << ", " << t1.normal.Y << ", " << t1.normal.Z << std::endl;
+	Triangle t2(b, d, c, blue);
+	std::cout << t2.normal.X << ", " << t2.normal.Y << ", " << t2.normal.Z << std::endl;
+	Triangle t3(a, c, d, blue);
+	std::cout << t3.normal.X << ", " << t3.normal.Y << ", " << t3.normal.Z << std::endl;
+	Triangle t4(a, b, c, blue);
+	std::cout << t4.normal.X << ", " << t4.normal.Y << ", " << t4.normal.Z << std::endl;
+
+	triangles.push_back(t1);
+	triangles.push_back(t2);
+	triangles.push_back(t3);
+	triangles.push_back(t4);
 	/*
 	Vertex a(8, 1, 0, 1);
 	Vertex b(8.5, -1, 0, 1);
@@ -126,10 +167,10 @@ int main() {
 	triangles.push_back(wt10);
 	triangles.push_back(wt11);
 	triangles.push_back(wt12);
-	triangles.push_back(tetra1[0]);
-	triangles.push_back(tetra1[1]);
-	triangles.push_back(tetra1[2]);
-	triangles.push_back(tetra1[3]);
+	//triangles.push_back(tetra1[0]);
+	//triangles.push_back(tetra1[1]);
+	//triangles.push_back(tetra1[2]);
+	//triangles.push_back(tetra1[3]);
 
 	//SKAPA SFÄÄÄÄÄÄÄR
 	Vertex asdf(10, 3, -0.5, 1);
@@ -140,7 +181,7 @@ int main() {
 	Scene s;
 	s.tris = triangles;
 	s.spheres = spheres;
-	Light light(Vertex(5.0, 0.0, 4.7, 1), 0.9, white);
+	Light light(Vertex(5.0, 0.0, 4.5, 1), 0.9, white);
 	s.light = light;
 
 	//Render "scene"

@@ -19,9 +19,10 @@ const int W = 800;
 class Camera
 {
 public:
-	
-	//Constructor
-	Camera(Vertex e1) : eye1(e1) { };
+
+	Camera() {
+		pixelPlane.resize(800, std::vector<Pixel>(800, ColorDbl()));
+	};
 
 	void render(Scene s);
 
@@ -29,15 +30,17 @@ public:
 
 
 	//Positions of eyes
-	Vertex eye1;
+	Vertex eye1 = Vertex(-1, 0, 0, 1);
 
 	//Vertex eye2;
 	//int switchEye = 0;
 
 	//Image in the room
-	Vertex **image = new Vertex*[H];
+	//Vertex **image = new Vertex*[H];
 
-	Pixel **pixels = new Pixel*[H];
+	//Pixel **pixels = new Pixel*[H];
+
+	std::vector<std::vector<Pixel>> pixelPlane;
 
 private:
 

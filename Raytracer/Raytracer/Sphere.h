@@ -16,7 +16,7 @@ public:
 
 	Sphere(Vertex c, double r, ColorDbl col) : center(c), radius(r), color(col) {};
 
-	bool sphereIntersection(Ray &r, double &d) {
+	bool sphereIntersection(Ray &r, double &d, Direction &n) {
 
 		double d0, d1;
 
@@ -33,6 +33,10 @@ public:
 			d0 = d1;
 			if (d0 < 0) return false;
 		}
+
+		Vertex Phit(r.start.X - d0 * r.dir.X, r.start.Y - d0 * r.dir.Y, r.start.Z - d0 * r.dir.Z, 1);
+		//normal
+		n = Direction(Phit.X - center.X, Phit.Y - center.Y, Phit.Z - center.Z).normalize();
 
 		d = d0;
 	};

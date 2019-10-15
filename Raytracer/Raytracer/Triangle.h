@@ -33,7 +33,7 @@ public:
 
 	std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
 
-	ColorDbl shading(Ray &importance, Light l, std::vector<Triangle> triangles);
+	//ColorDbl shading(Ray &importance, Light l, std::vector<Triangle> triangles);
 
 	Vertex v1;
 	Vertex v2;
