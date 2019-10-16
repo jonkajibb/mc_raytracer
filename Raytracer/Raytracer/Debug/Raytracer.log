@@ -1,2 +1,8 @@
-﻿  main.cpp
-  Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe
+﻿  Camera.cpp
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(62): warning C4018: '<': signed/unsigned mismatch
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(114): warning C4100: 'hCoor': unreferenced formal parameter
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(114): warning C4100: 'wCoor': unreferenced formal parameter
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(114): warning C4100: 'c': unreferenced formal parameter
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(70): warning C4701: potentially uninitialized local variable 't' used
+e:\mc_raytracer\raytracer\raytracer\sphere.h(42): warning C4715: 'Sphere::sphereIntersection': not all control paths return a value
+  Raytracer.vcxproj -> E:\mc_raytracer\Raytracer\Debug\Raytracer.exe

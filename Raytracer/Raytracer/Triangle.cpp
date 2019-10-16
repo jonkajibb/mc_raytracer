@@ -44,7 +44,7 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 {
 	Direction edge1(this->v2.X - this->v1.X, this->v2.Y - this->v1.Y, this->v2.Z - this->v1.Z);
 	Direction edge2(this->v3.X - this->v1.X, this->v3.Y - this->v1.Y, this->v3.Z - this->v1.Z);
-	Direction P = crossProduct(r.dir, edge2);
+	Direction P = r.dir.crossProduct(edge2);
 	double det = edge1.dot(P);
 
 	//if culling (triangle is backfacing)
@@ -58,11 +58,11 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 	double invDet = 1 / det;
 
 	Direction T(r.start.X - this->v1.X, r.start.Y - this->v1.Y, r.start.Z - this->v1.Z); //orig - v1
-	double u = dot(T, P) * invDet;
+	double u = T.dot(P) * invDet;
 	if (u < 0 || u > 1) return false;
 
-	Direction Q = crossProduct(T, edge1);
-	double v = dot(r.dir, Q) * invDet;
+	Direction Q = T.crossProduct(edge1);
+	double v = r.dir.dot(Q) * invDet;
 	if (v < 0 || u + v > 1) return false;
 
 	t = edge2.dot(Q) * invDet;

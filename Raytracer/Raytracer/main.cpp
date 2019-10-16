@@ -77,10 +77,10 @@ int main() {
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, orange);
-	std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
+	//std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
 	Triangle wt5 = Triangle(rv2, fv2, fv3, lightblue);// fv2, fv3, rv2, lightgreen);
-	std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
+	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
 	Triangle wt6 = Triangle(fv3, rv3, rv2, lightgreen);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, lightgreen);

@@ -72,14 +72,28 @@ void Camera::render(Scene s)
 			}
 			else {
 				Direction lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+
 				lightDir.normalize();
-				double angle = lightDir.dot(minTriangle.normal);
-				//std::cout << angle << std::endl;
-				if (angle < 0) {
+				/*std::cout << "Light Direction:\t"
+					<< lightDir.X 
+					<< ", " << lightDir.Y 
+					<< ", " << lightDir.Z 
+					<< std::endl;
+				std::cout << "Importance ray endpoint\t"
+					<< ray.end.X
+					<< ", " << ray.end.Y
+					<< ", " << ray.end.Z
+					<< std::endl;*/
+
+				double dotProduct = lightDir.dot(minTriangle.normal);
+				//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
+				//std::cout << dotProduct << std::endl;
+				//std::cout << minTriangle.normal.getScalar() << std::endl;
+				if (dotProduct < 0) {
 					pixelPlane[w][h] = minTriangle.color * 0;
 				}
 				else {
-					pixelPlane[w][h] = minTriangle.color * angle;
+					pixelPlane[w][h] = minTriangle.color * dotProduct;
 				}
 			}
 			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
