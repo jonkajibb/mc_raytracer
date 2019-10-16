@@ -175,7 +175,7 @@ int main() {
 	//SKAPA SFÄÄÄÄÄÄÄR
 	Vertex asdf(10, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
-	//spheres.push_back(Sphere(asdf, 1.0, white));
+	spheres.push_back(Sphere(asdf, 1.0, white));
 
 	//Fill scene with triangles, spheres and lights
 	Scene s;

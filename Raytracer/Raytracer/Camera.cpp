@@ -45,6 +45,9 @@ void Camera::render(Scene s)
 			double minDistance = 1000;
 			Triangle minTriangle;
 			Sphere minSphere;
+			Direction lightDir;
+			double angle;
+
 			for (unsigned i = 0; i < s.tris.size(); i++)
 			{
 				if (s.tris[i].rayIntersection(ray, t))
@@ -66,37 +69,39 @@ void Camera::render(Scene s)
 				}
 			}
 
-			//Check if sphere is in front of the triangle
-			if (d < t) {
-				pixelPlane[w][h] = minSphere.color;
+			//Check if point is shaded, if not calculate brightness
+			if (s.shading(ray)) {
+				
+				//pixelPlane[w][h] = minTriangle.color * 0.4;
+
 			}
-			else {
-				Direction lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+			if(1 == 1) {
+				//Check if sphere is in front of the triangle
+				if (d < t) {
+					lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+					lightDir.normalize();
+					sphereNormal.normalize();
+					angle = cos(lightDir.dot(sphereNormal));
 
-				lightDir.normalize();
-				/*std::cout << "Light Direction:\t"
-					<< lightDir.X 
-					<< ", " << lightDir.Y 
-					<< ", " << lightDir.Z 
-					<< std::endl;
-				std::cout << "Importance ray endpoint\t"
-					<< ray.end.X
-					<< ", " << ray.end.Y
-					<< ", " << ray.end.Z
-					<< std::endl;*/
-
-				double dotProduct = lightDir.dot(minTriangle.normal);
-				//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
-				//std::cout << dotProduct << std::endl;
-				//std::cout << minTriangle.normal.getScalar() << std::endl;
-				if (dotProduct < 0) {
-					pixelPlane[w][h] = minTriangle.color * 0;
+					pixelPlane[w][h] = minSphere.color * angle;
 				}
 				else {
-					pixelPlane[w][h] = minTriangle.color * dotProduct;
+					lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+
+					lightDir.normalize();
+
+					angle = 1 - cos(minTriangle.normal.dot(lightDir));
+					//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
+					//std::cout << dotProduct << std::endl;
+					//std::cout << minTriangle.normal.getScalar() << std::endl;
+					if (angle < 0) {
+						pixelPlane[w][h] = minTriangle.color * 0;
+					}
+					else {
+						pixelPlane[w][h] = minTriangle.color * angle;
+					}
 				}
 			}
-			//std::cout << "(" << currentP.Y << ", " << currentP.Z << ")\t"
 			
 			out << pixelPlane[w][h].color.R 
 				<< ", " << pixelPlane[w][h].color.G 
@@ -108,6 +113,12 @@ void Camera::render(Scene s)
 
 		currentP.Z = currentP.Z - length; //step down
 		currentP.Y = 1 - hLength; //start from first position again
+
+		if (h == 200) std::cout << "25% rendered..." << std::endl;
+		if (h == 400) std::cout << "50% rendered..." << std::endl;
+		if (h == 600) std::cout << "75% rendered..." << std::endl;
+		if (h == 799) std::cout << "100% rendered!" << std::endl;
+
 	}
 }
 
