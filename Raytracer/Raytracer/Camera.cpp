@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include <iostream>
-#include "BMP.h"
 #include <algorithm>
 
 void Camera::render(Scene s)
@@ -40,7 +39,7 @@ void Camera::render(Scene s)
 
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
-			double t;
+			double t = 0;
 			double d = 1000;
 			double minDistance = 1000;
 			Triangle minTriangle;

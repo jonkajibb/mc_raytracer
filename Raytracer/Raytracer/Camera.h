@@ -25,6 +25,7 @@ public:
 	};
 
 	void render(Scene s);
+    
 
 	void createImage(ColorDbl c, int w, int h);
 

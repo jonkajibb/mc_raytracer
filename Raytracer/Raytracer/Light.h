@@ -6,9 +6,7 @@
 class Light {
 public:
 	Light() {
-		pos;
 		intensity = 0;
-		color;
 	}
 
 	Light(Vertex p, double i, ColorDbl c) : pos(p), intensity(i), color(c) {};

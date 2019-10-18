@@ -30,7 +30,7 @@ ColorDbl ColorDbl::shading(Ray &importance, Triangle hitTri, Scene s) {
 	else {
 		col = hitTri.color * angle * light_i * intersected;
 	}
-	/*else if (angle > 1) {
+	else if (angle > 1) {
 	col = this->color * 0;
 	}
 	//std::cout << angle << std::endl;

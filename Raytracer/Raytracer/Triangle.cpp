@@ -5,11 +5,11 @@ const double EPS = 1e-4;
 
 Triangle::Triangle()
 {
-	v1;
-	v2;
-	v3;
-	color;
-	normal;
+	//v1;
+	//v2;
+	//v3;
+	//color;
+	//normal;
 }
 
 /* Constructor: initialize a TriangleSoup object to an empty object */
@@ -176,7 +176,7 @@ ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> trian
 		col = this->color;
 	}
 	else if(!intersected){
-		col = this->color * angle; //* light_i;
+		col = this->color * angle; //light_i;
 	}
 	else if (intersected) {
 		col = this->color * 0.4;

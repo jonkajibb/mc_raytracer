@@ -9,12 +9,14 @@ class Sphere
 public:
 
 	Sphere() {
-		center;
 		radius = 0;
-		color;
 	}
 
-	Sphere(Vertex c, double r, ColorDbl col) : center(c), radius(r), color(col) {};
+	Sphere(Vertex c, double r, ColorDbl col) {
+		center = c;
+		radius = r;
+		color = col;
+	};
 
 	bool sphereIntersection(Ray &r, double &d, Direction &n) {
 
@@ -39,6 +41,8 @@ public:
 		n = Direction(Phit.X - center.X, Phit.Y - center.Y, Phit.Z - center.Z).normalize();
 
 		d = d0;
+
+		return true;
 	};
 
 	bool solveQuadratic(const double &a, const double &b, const double &c, double &x0, double &x1)
@@ -56,7 +60,7 @@ public:
 		if (x0 > x1) std::swap(x0, x1);
 
 		return true;
-	}
+	};
 
 	Vertex center;
 	double radius;
