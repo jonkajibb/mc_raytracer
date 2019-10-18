@@ -14,7 +14,8 @@ public:
 		color;
 	}
 
-	Sphere(Vertex c, double r, ColorDbl col) : center(c), radius(r), color(col) {};
+	Sphere(Vertex c, double r, Materials m, ColorDbl col) : center(c), radius(r), material(m), color(col) {};
+	Sphere(Vertex c, double r, Materials m) : center(c), radius(r), material(m) {};
 
 	bool sphereIntersection(Ray &r, double &d, Direction &n) {
 
@@ -61,6 +62,7 @@ public:
 	Vertex center;
 	double radius;
 	ColorDbl color;
+	Materials material;
 
 private:
 };

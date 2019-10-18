@@ -12,12 +12,23 @@ Triangle::Triangle()
 	normal;
 }
 
-/* Constructor: initialize a TriangleSoup object to an empty object */
-Triangle::Triangle(Vertex i1, Vertex i2, Vertex i3, ColorDbl c) {
+//Constructor for diffuse surfaces
+Triangle::Triangle(Vertex i1, Vertex i2, Vertex i3, Materials m, ColorDbl c) {
 	v1 = i1;
 	v2 = i2;
 	v3 = i3;
+	material = m;
 	color = c;
+
+	normal = findNormal(v1, v2, v3);
+};
+
+//Constructor for mirror surfaces
+Triangle::Triangle(Vertex i1, Vertex i2, Vertex i3, Materials m) {
+	v1 = i1;
+	v2 = i2;
+	v3 = i3;
+	material = m;
 
 	normal = findNormal(v1, v2, v3);
 };

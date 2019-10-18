@@ -15,13 +15,19 @@
 #include "math.h"
 #include "ColorDbl.h"
 
+enum Materials {
+	Diffuse,
+	Mirror
+};
+
 class Triangle
 {
 public:
 	Triangle();
 
 	//Constructor
-	Triangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
+	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m, ColorDbl c);
+	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m);
 
 	bool rayIntersection(Ray &r, double &t);
 
@@ -38,6 +44,7 @@ public:
 	Vertex v1;
 	Vertex v2;
 	Vertex v3;
+	Materials material;
 	ColorDbl color;
 	Direction normal;
 private:

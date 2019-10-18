@@ -55,42 +55,42 @@ int main() {
 
 	//Triangles for scene
 	//FLOOR
-	Triangle ft1 = Triangle(fc, fv1, fv6, offwhite);
-	Triangle ft2 = Triangle(fc, fv2, fv1, offwhite);
-	Triangle ft3 = Triangle(fc, fv3, fv2, offwhite);
-	Triangle ft4 = Triangle(fc, fv4, fv3, offwhite);
-	Triangle ft5 = Triangle(fc, fv5, fv4, offwhite);
-	Triangle ft6 = Triangle(fc, fv6, fv5, offwhite);
+	Triangle ft1 = Triangle(fc, fv1, fv6, Diffuse, offwhite);
+	Triangle ft2 = Triangle(fc, fv2, fv1, Diffuse, offwhite);
+	Triangle ft3 = Triangle(fc, fv3, fv2, Diffuse, offwhite);
+	Triangle ft4 = Triangle(fc, fv4, fv3, Diffuse, offwhite);
+	Triangle ft5 = Triangle(fc, fv5, fv4, Diffuse, offwhite);
+	Triangle ft6 = Triangle(fc, fv6, fv5, Diffuse, offwhite);
 
 	//ROOF
-	Triangle rt1 = Triangle(rc, rv6, rv1, lightblue);
-	Triangle rt2 = Triangle(rc, rv1, rv2, lightblue);
-	Triangle rt3 = Triangle(rc, rv2, rv3, lightblue);
-	Triangle rt4 = Triangle(rc, rv3, rv4, lightblue);
-	Triangle rt5 = Triangle(rc, rv4, rv5, lightblue);
-	Triangle rt6 = Triangle(rc, rv5, rv6, lightblue);
+	Triangle rt1 = Triangle(rc, rv6, rv1, Diffuse, lightblue);
+	Triangle rt2 = Triangle(rc, rv1, rv2, Diffuse, lightblue);
+	Triangle rt3 = Triangle(rc, rv2, rv3, Diffuse, lightblue);
+	Triangle rt4 = Triangle(rc, rv3, rv4, Diffuse, lightblue);
+	Triangle rt5 = Triangle(rc, rv4, rv5, Diffuse, lightblue);
+	Triangle rt6 = Triangle(rc, rv5, rv6, Diffuse, lightblue);
 
 	//WALLS
 	//north west
-	Triangle wt1 = Triangle(fv6, fv1, rv6, orange);
-	Triangle wt2 = Triangle(fv1, rv1, rv6, orange);
+	Triangle wt1 = Triangle(fv6, fv1, rv6, Diffuse, orange);
+	Triangle wt2 = Triangle(fv1, rv1, rv6, Diffuse, orange);
 	//north
-	Triangle wt3 = Triangle(fv1, fv2, rv1, orange);
-	Triangle wt4 = Triangle(fv2, rv2, rv1, orange);
+	Triangle wt3 = Triangle(fv1, fv2, rv1, Diffuse, orange);
+	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
 	//std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
-	Triangle wt5 = Triangle(rv2, fv2, fv3, lightblue);// fv2, fv3, rv2, lightgreen);
+	Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
-	Triangle wt6 = Triangle(fv3, rv3, rv2, lightgreen);
+	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightgreen);
 	//south east
-	Triangle wt7 = Triangle(fv3, fv4, rv3, lightgreen);
+	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
 	Triangle wt8 = Triangle(fv4, rv4, rv3, lightgreen);
 	//south
-	Triangle wt9 = Triangle(fv4, fv5, rv4, orange);
-	Triangle wt10 = Triangle(fv5, rv5, rv4, orange);
+	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, orange);
+	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, orange);
 	//south west
-	Triangle wt11 = Triangle(fv5, fv6, rv5, orange);
-	Triangle wt12 = Triangle(fv6, rv6, rv5, orange);
+	Triangle wt11 = Triangle(fv5, fv6, rv5, Diffuse, orange);
+	Triangle wt12 = Triangle(fv6, rv6, rv5, Diffuse, orange);
 
 	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
 	//std::vector<Triangle> tetra1;
@@ -123,13 +123,13 @@ int main() {
 	d.Y = origo.Y;
 	d.Z = origo.Z + 1;
 
-	Triangle t1(a, d, b, blue);
+	Triangle t1(a, d, b, Mirror);
 	std::cout << t1.normal.X << ", " << t1.normal.Y << ", " << t1.normal.Z << std::endl;
-	Triangle t2(b, d, c, blue);
+	Triangle t2(b, d, c, Mirror);
 	std::cout << t2.normal.X << ", " << t2.normal.Y << ", " << t2.normal.Z << std::endl;
-	Triangle t3(a, c, d, blue);
+	Triangle t3(a, c, d, Mirror);
 	std::cout << t3.normal.X << ", " << t3.normal.Y << ", " << t3.normal.Z << std::endl;
-	Triangle t4(a, b, c, blue);
+	Triangle t4(a, b, c, Mirror);
 	std::cout << t4.normal.X << ", " << t4.normal.Y << ", " << t4.normal.Z << std::endl;
 
 	triangles.push_back(t1);
@@ -175,7 +175,7 @@ int main() {
 	//SKAPA SFÄÄÄÄÄÄÄR
 	Vertex asdf(10, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
-	spheres.push_back(Sphere(asdf, 1.0, white));
+	spheres.push_back(Sphere(asdf, 1.0, Mirror));
 
 	//Fill scene with triangles, spheres and lights
 	Scene s;

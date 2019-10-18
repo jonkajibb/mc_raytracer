@@ -11,6 +11,7 @@
 class Ray
 {
 public:
+	Ray();
 	//Constructor
 	Ray(Vertex x, Direction d) : start(x), dir(d) { };
 

@@ -30,6 +30,10 @@ public:
 		return Direction(X*num, Y*num, Z*num);
 	};
 
+	Direction operator-(Direction const &d) {
+		return Direction(X-d.X, Y-d.Y, Z-d.Z);
+	};
+
 	Direction normalize() {
 		//dividing vector by its length/magnitude
 		X = X / sqrt((X*X) + (Y * Y) + (Z * Z));
