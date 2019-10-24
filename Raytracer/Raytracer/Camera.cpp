@@ -65,7 +65,8 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 	Direction lightDir;
 	double angle;
 	Direction reflection;
-	Ray rRay; //reflected ray
+	ColorDbl finalColor;
+	//Ray rRay; //reflected ray
 
 	//Ray ray = this;
 
@@ -96,17 +97,18 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 
 			//Reflection -> find new direction
 			reflection = ray.dir - sphereNormal*(2 * (ray.dir.dot(sphereNormal)));
-			rRay = Ray(ray.end, reflection);
-			castRay(rRay, s);
+			Ray rRay = Ray(ray.end, reflection);
+			return castRay(rRay, s);
 		}
 		else if (minSphere.material == Diffuse) {
-			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+			finalColor = minSphere.color;
+			/*lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
 			lightDir.normalize();
 			sphereNormal.normalize();
 			//std::cout << sphereNormal.X << ", " << sphereNormal.Y << ", " << sphereNormal.Z << std::endl;
 			angle = 1 - cos(lightDir.dot(sphereNormal));
 
-			return minSphere.color * angle;
+			return minSphere.color * angle;*/
 		}
 	}
 	else //If triangle
@@ -115,10 +117,11 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 
 			//Reflection -> find new direction
 			reflection = ray.dir - minTriangle.normal * (2 * (ray.dir.dot(minTriangle.normal)));
-			rRay = Ray(ray.end, reflection);
-			castRay(rRay, s);
+			Ray rRay = Ray(ray.end, reflection);
+			return castRay(rRay, s);
 		}
 		else if (minTriangle.material == Diffuse) {
+			//finalColor = minTriangle.color;
 			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
 
 			lightDir.normalize();
@@ -128,44 +131,21 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 			//std::cout << dotProduct << std::endl;
 			//std::cout << minTriangle.normal.getScalar() << std::endl;
 			if (angle < 0) {
-				return minTriangle.color * 0;
+				finalColor = minTriangle.color * 0;
 			}
 			else {
-				return minTriangle.color * angle;
+				finalColor = minTriangle.color * angle;
 			}
 		}
 	}
 
+	/*
 	//skit här nere
 	if (s.shading(ray)) {
 		return minTriangle.color * 0.2;
-	}
-	else if (d < t) //Check if sphere is in front of the triangle
-	{
-		lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
-		lightDir.normalize();
-		sphereNormal.normalize();
-		//std::cout << sphereNormal.X << ", " << sphereNormal.Y << ", " << sphereNormal.Z << std::endl;
-		angle = 1 - cos(lightDir.dot(sphereNormal));
+	}*/
 
-		return minSphere.color * angle;
-	}
-	else {
-		lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
-
-		lightDir.normalize();
-
-		angle = 1 - cos(minTriangle.normal.dot(lightDir));
-		//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
-		//std::cout << dotProduct << std::endl;
-		//std::cout << minTriangle.normal.getScalar() << std::endl;
-		if (angle < 0) {
-			return minTriangle.color * 0;
-		}
-		else {
-			return minTriangle.color * angle;
-		}
-	}
+	return finalColor;
 
 };
 

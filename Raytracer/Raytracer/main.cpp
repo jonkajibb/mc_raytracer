@@ -84,7 +84,7 @@ int main() {
 	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightgreen);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
-	Triangle wt8 = Triangle(fv4, rv4, rv3, lightgreen);
+	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
 	//south
 	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, orange);
 	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, orange);

@@ -2,25 +2,7 @@
 d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
 d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
 d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(24): warning C4101: 'angle': unreferenced local variable
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(86): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(95): error C2039: 'material': is not a member of 'Sphere'
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\sphere.h(7): note: see declaration of 'Sphere'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(95): error C2065: 'Mirror': undeclared identifier
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(98): error C2676: binary '-': 'Direction' does not define this operator or a conversion to a type acceptable to the predefined operator
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(102): error C2039: 'material': is not a member of 'Sphere'
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\sphere.h(7): note: see declaration of 'Sphere'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(102): error C2065: 'Diffuse': undeclared identifier
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(114): error C2039: 'material': is not a member of 'Triangle'
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.h(18): note: see declaration of 'Triangle'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(114): error C2065: 'Mirror': undeclared identifier
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(117): error C2676: binary '-': 'Direction' does not define this operator or a conversion to a type acceptable to the predefined operator
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(121): error C2039: 'material': is not a member of 'Triangle'
-  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\triangle.h(18): note: see declaration of 'Triangle'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(121): error C2065: 'Diffuse': undeclared identifier
-  main.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(24): warning C4101: 'angle': unreferenced local variable
-  Ray.cpp
-  Triangle.cpp
-  Generating Code...
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(87): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(94): warning C4701: potentially uninitialized local variable 't' used
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\sphere.h(43): warning C4715: 'Sphere::sphereIntersection': not all control paths return a value
+  Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe

@@ -31,14 +31,6 @@ public:
 	//Positions of eyes
 	Vertex eye1 = Vertex(-1, 0, 0, 1);
 
-	//Vertex eye2;
-	//int switchEye = 0;
-
-	//Image in the room
-	//Vertex **image = new Vertex*[H];
-
-	//Pixel **pixels = new Pixel*[H];
-
 	std::vector<std::vector<Pixel>> pixelPlane;
 
 private:

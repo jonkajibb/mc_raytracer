@@ -94,6 +94,7 @@ Direction Triangle::crossProduct(Direction d1, Direction d2)
 	return Direction(Nx, Ny, Nz);
 }
 
+/*
 std::vector<Triangle> Triangle::createTetrahedron(Vertex origo, ColorDbl clr)
 {
 	Vertex a, b, c, d;
@@ -132,7 +133,7 @@ std::vector<Triangle> Triangle::createTetrahedron(Vertex origo, ColorDbl clr)
 	tetra.push_back(t4);
 
 	return tetra;
-}
+}*/
 
 double Triangle::dot(Direction d1, Direction d2)
 {
@@ -140,59 +141,3 @@ double Triangle::dot(Direction d1, Direction d2)
 
 	return result;
 };
-
-/*
-ColorDbl Triangle::shading(Ray &importance, Light l, std::vector<Triangle> triangles) {
-	bool intersected = false;
-	double t = 1000;
-	double angle;
-	double minDistance = 10000;
-
-	Triangle minTriangle;
-	ColorDbl col;
-	Direction d(l.pos.X - importance.end.X, l.pos.Y - importance.end.Y, l.pos.Z - importance.end.Z);
-
-	ColorDbl light_i = l.color * l.intensity; //Light color*intenisty
-
-	Ray sRay(importance.end, d);
-	d = d.normalize();
-
-	//Angle between importance ray endpoint normal and sRay's direction
-	angle = std::max(0.0, d.dot(this->normal));
-	//std::cout << angle << std::endl;
-
-	//Check if shadowray intersects a surface -> shadow
-	//has to check if the intersected surface is between
-	//the light source and the shadowray origin point
-	for (int i = 0; i < triangles.size(); i++)
-	{
-		if (triangles[i].rayIntersection(sRay, t))
-		{
-			if (t < minDistance) {
-				minDistance = t;
-				minTriangle = triangles[i];
-				//Determine endpoint of ray, used in shading
-				//ray.endTri = minTriangle;
-			}
-		}
-	}
-
-	Direction newD(l.pos.X - importance.end.X, l.pos.Y - importance.end.Y, l.pos.Z - importance.end.Z);
-	Direction isec(sRay.end.X - importance.end.X, sRay.end.Y - importance.end.Y, sRay.end.Z - importance.end.Z);
-	if (isec.getScalar() < newD.getScalar()) {
-		intersected = true;
-	}
-
-	if (angle < 0) {
-		col = this->color;
-	}
-	else if(!intersected){
-		col = this->color * angle; //* light_i;
-	}
-	else if (intersected) {
-		col = this->color * 0.4;
-	}
-
-	//Check if sRay intersects something
-	return col;
-};*/
