@@ -13,7 +13,11 @@ class Ray
 public:
 	Ray();
 	//Constructor
-	Ray(Vertex x, Direction d) : start(x), dir(d) { };
+    Ray(Vertex x, Direction d) {
+      start = x;
+      dir = d;
+      dir.normalize();
+    };
 
 	//ColorDbl shadowRay(Triangle &hitTri, Ray &importance, Vertex light);
 

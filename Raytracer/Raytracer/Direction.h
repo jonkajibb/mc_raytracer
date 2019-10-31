@@ -35,13 +35,17 @@ public:
 	};
 
 	Direction normalize() {
-		//dividing vector by its length/magnitude
-		X = X / sqrt((X*X) + (Y * Y) + (Z * Z));
-		Y = Y / sqrt((X*X) + (Y * Y) + (Z * Z));
-		Z = Z / sqrt((X*X) + (Y * Y) + (Z * Z));
+      double x1 = X;
+      double y1 = Y;
+      double z1 = Z;
 
-		return Direction(X, Y, Z);
-	};
+      //dividing vector by its length/magnitude
+      X = x1 / sqrt((x1*x1) + (y1 * y1) + (z1 * z1));
+      Y = y1 / sqrt((x1*x1) + (y1 * y1) + (z1 * z1));
+      Z = z1 / sqrt((x1*x1) + (y1 * y1) + (z1 * z1));
+
+      return Direction(X, Y, Z);
+    };
 
 	Direction crossProduct(Direction d1)
 	{

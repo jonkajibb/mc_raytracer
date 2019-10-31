@@ -78,15 +78,18 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 	double v = r.dir.dot(Q) * invDet;
 	if (v < 0 || u + v > 1) return false;
 
-	t = edge2.dot(Q) * invDet;
-
+    t = edge2.dot(Q) * invDet;
     
-    //Är det här verkligen rätt?
-	r.end = Vertex(r.start.X + r.dir.X*t,
-		r.start.Y + r.dir.Y*t,
-		r.start.Z + r.dir.Z*t, 1);
+    if(t > EPS && t < 1000) {
+        //Är det här verkligen rätt?
+           r.end = Vertex(
+                          r.start.X + r.dir.X*t,
+                          r.start.Y + r.dir.Y*t,
+                          r.start.Z + r.dir.Z*t, 1);
+            return true;
+    }
 
-	return true;
+    return false;
 }
 
 Direction Triangle::crossProduct(Direction d1, Direction d2)

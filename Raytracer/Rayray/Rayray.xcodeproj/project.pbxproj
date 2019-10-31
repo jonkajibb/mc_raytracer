@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30873E8A2359E98C00D6BAC5 /* Direction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E712359E98A00D6BAC5 /* Direction.cpp */; };
 		30873E8C2359E98C00D6BAC5 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E752359E98B00D6BAC5 /* Camera.cpp */; };
 		30873E8E2359E98C00D6BAC5 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E7A2359E98B00D6BAC5 /* Triangle.cpp */; };
 		30873E902359E98C00D6BAC5 /* ColorDbl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E822359E98B00D6BAC5 /* ColorDbl.cpp */; };
@@ -31,7 +30,6 @@
 		30873E6E2359E98A00D6BAC5 /* Raytracer.vcxproj.filters */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Raytracer.vcxproj.filters; path = ../../RayTracer/Raytracer.vcxproj.filters; sourceTree = "<group>"; };
 		30873E6F2359E98A00D6BAC5 /* Raytracer.vcxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Raytracer.vcxproj; path = ../../RayTracer/Raytracer.vcxproj; sourceTree = "<group>"; };
 		30873E702359E98A00D6BAC5 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Light.h; path = ../../RayTracer/Light.h; sourceTree = "<group>"; };
-		30873E712359E98A00D6BAC5 /* Direction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Direction.cpp; path = ../../RayTracer/Direction.cpp; sourceTree = "<group>"; };
 		30873E732359E98B00D6BAC5 /* Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vertex.h; path = ../../RayTracer/Vertex.h; sourceTree = "<group>"; };
 		30873E742359E98B00D6BAC5 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../../RayTracer/Scene.h; sourceTree = "<group>"; };
 		30873E752359E98B00D6BAC5 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../../RayTracer/Camera.cpp; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 				30873E7C2359E98B00D6BAC5 /* Camera.h */,
 				30873E822359E98B00D6BAC5 /* ColorDbl.cpp */,
 				30873E832359E98B00D6BAC5 /* ColorDbl.h */,
-				30873E712359E98A00D6BAC5 /* Direction.cpp */,
 				30873E782359E98B00D6BAC5 /* Direction.h */,
 				30873E702359E98A00D6BAC5 /* Light.h */,
 				30873E872359E98C00D6BAC5 /* main.cpp */,
@@ -161,7 +158,6 @@
 				30873E8E2359E98C00D6BAC5 /* Triangle.cpp in Sources */,
 				30873E8C2359E98C00D6BAC5 /* Camera.cpp in Sources */,
 				30873E912359E98C00D6BAC5 /* main.cpp in Sources */,
-				30873E8A2359E98C00D6BAC5 /* Direction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -71,16 +71,16 @@ int main() {
 
 	//WALLS
 	//north west
-	Triangle wt1 = Triangle(fv6, fv1, rv6, Diffuse, orange);
-	Triangle wt2 = Triangle(fv1, rv1, rv6, Diffuse, orange);
+	Triangle wt1 = Triangle(fv6, fv1, rv6, Diffuse, blue);
+	Triangle wt2 = Triangle(fv1, rv1, rv6, Diffuse, blue);
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, Diffuse, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
 	//std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
-	Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
+    Triangle wt5 = Triangle(rv2, fv2, fv3, Mirror, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
-	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightblue);
+	Triangle wt6 = Triangle(fv3, rv3, rv2, Mirror, lightblue);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
@@ -172,6 +172,7 @@ int main() {
 	//triangles.push_back(tetra1[3]);
 
 	//SKAPA SFÄÄÄÄÄÄÄR
+    
     /*
 	Vertex asdf(10, 3, -0.5, 1);
 	std::vector<Sphere> spheres;

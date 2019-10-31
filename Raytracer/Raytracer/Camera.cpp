@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 void Camera::render(Scene s)
 {
 	//side length of pixels: 0.0025
@@ -20,7 +21,7 @@ void Camera::render(Scene s)
 	//Build image plane, 800x800 vertices
 	for (int h = 0; h < H; h++)
 	{
-		for (int w = 799; w >= 0; w--)
+		for (int w = 0; w < W; w++)
 		{
 
 			//pixelPlane[h][w] = currentP;
@@ -55,10 +56,10 @@ void Camera::render(Scene s)
 	}
 }
 
-ColorDbl Camera::castRay(Ray ray, Scene s) {
+ColorDbl Camera::castRay(Ray& ray, Scene& s) {
 	double t = 0;
 	double d = 1000;
-	double minDistance = 1000;
+	double minDistance = 10000;
 	Triangle minTriangle;
 	Sphere minSphere;
 	Direction sphereNormal;
@@ -78,6 +79,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 			if (t < minDistance) {
 				minDistance = t;
 				minTriangle = s.tris[i];
+                //std::cout << "Minimum distance: " << minDistance << std::endl;
 				//Determine endpoint of ray, used in shading
 				//ray.endTri = minTriangle;
 			}
@@ -95,11 +97,10 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 	{
         
 		if (minSphere.material == Mirror) {
-
 			//Reflection -> find new direction
 			reflection = ray.dir - sphereNormal*(2 * (ray.dir.dot(sphereNormal)));
 			Ray rRay = Ray(ray.end, reflection);
-			return castRay(rRay, s);
+            return castRay(rRay, s);
 		}
 		else if (minSphere.material == Diffuse) {
 			finalColor = minSphere.color;
@@ -118,6 +119,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 
             Direction myNormal = minTriangle.normal;
             Direction myIncoming = ray.dir;
+            myIncoming.normalize();
             //myNormal = myNormal*(-1);
             //myIncoming = myIncoming*(-1);
             
@@ -129,9 +131,13 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
             //Direction myNormal = minTriangle.normal;
             //Direction myIncoming = ray.dir*(-1);
             reflection = myIncoming - myNormal*(myNormal.dot(myIncoming))*2;
-            
+           /* std::cout << "Direction: " << reflection.X << ", "
+                                       << reflection.Y << ", "
+                                       << reflection.Z << std::endl;
+             */
             //Tror det är fel på ray.end här... Den startar liksom på väggen bakom tetraheden iställer för tetraheden.
 			Ray rRay = Ray(ray.end, reflection);
+            //return ColorDbl(0, 0, 0);
             return castRay(rRay, s);
 		}
 		else if (minTriangle.material == Diffuse) {
@@ -147,8 +153,10 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 			//std::cout << minTriangle.normal.getScalar() << std::endl;
 			if (angle < 0) {
 				finalColor = minTriangle.color * 0;
+                //finalColor = ColorDbl(255,255,255);
 			}
 			else {
+                //finalColor = ColorDbl(255,255,255);
 				finalColor = minTriangle.color * angle;
 			}
 		}
