@@ -51,7 +51,7 @@ void Camera::render(Scene s)
 		if (h == 200) std::cout << "25% rendered..." << std::endl;
 		if (h == 400) std::cout << "50% rendered..." << std::endl;
 		if (h == 600) std::cout << "75% rendered..." << std::endl;
-		if (h == 799) std::cout << "100% rendered!" << std::endl;
+		if (h == 799) std::cout << "100% rendered!"  << std::endl;
 	}
 }
 
@@ -93,6 +93,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 
 	if (d < t) //If sphere
 	{
+        
 		if (minSphere.material == Mirror) {
 
 			//Reflection -> find new direction
@@ -115,18 +116,32 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 	{
 		if (minTriangle.material == Mirror) {
 
+            Direction myNormal = minTriangle.normal;
+            Direction myIncoming = ray.dir;
+            //myNormal = myNormal*(-1);
+            //myIncoming = myIncoming*(-1);
+            
+            
 			//Reflection -> find new direction
-			reflection = ray.dir - minTriangle.normal * (2 * (ray.dir.dot(minTriangle.normal)));
+			//reflection = ray.dir - myNormal * (2 * (ray.dir.dot(myNormal)));
+            
+            
+            //Direction myNormal = minTriangle.normal;
+            //Direction myIncoming = ray.dir*(-1);
+            reflection = myIncoming - myNormal*(myNormal.dot(myIncoming))*2;
+            
+            //Tror det är fel på ray.end här... Den startar liksom på väggen bakom tetraheden iställer för tetraheden.
 			Ray rRay = Ray(ray.end, reflection);
-			return castRay(rRay, s);
+            return castRay(rRay, s);
 		}
 		else if (minTriangle.material == Diffuse) {
 			//finalColor = minTriangle.color;
 			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
 
 			lightDir.normalize();
+            Direction myNormal = minTriangle.normal;
 
-			angle = 1 - cos(minTriangle.normal.dot(lightDir));
+			angle = 1 - cos(myNormal.dot(lightDir));
 			//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
 			//std::cout << dotProduct << std::endl;
 			//std::cout << minTriangle.normal.getScalar() << std::endl;

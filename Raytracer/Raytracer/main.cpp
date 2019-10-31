@@ -80,16 +80,16 @@ int main() {
 	//north east
 	Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
-	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightgreen);
+	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightblue);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
 	//south
-	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, orange);
-	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, orange);
+	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, red);
+	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, red);
 	//south west
-	Triangle wt11 = Triangle(fv5, fv6, rv5, Diffuse, orange);
-	Triangle wt12 = Triangle(fv6, rv6, rv5, Diffuse, orange);
+	Triangle wt11 = Triangle(fv5, fv6, rv5, Diffuse, blue);
+	Triangle wt12 = Triangle(fv6, rv6, rv5, Diffuse, blue);
 
 	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
 	//std::vector<Triangle> tetra1;
@@ -172,14 +172,16 @@ int main() {
 	//triangles.push_back(tetra1[3]);
 
 	//SKAPA SFÄÄÄÄÄÄÄR
+    /*
 	Vertex asdf(10, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
 	spheres.push_back(Sphere(asdf, 1.0, Mirror));
+     */
 
 	//Fill scene with triangles, spheres and lights
 	Scene s;
 	s.tris = triangles;
-	s.spheres = spheres;
+	//s.spheres = spheres;
 	Light light(Vertex(5.0, 0.0, 4.5, 1), 0.9, white);
 	s.light = light;
 

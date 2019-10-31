@@ -80,6 +80,8 @@ bool Triangle::rayIntersection(Ray &r, double &t)
 
 	t = edge2.dot(Q) * invDet;
 
+    
+    //Är det här verkligen rätt?
 	r.end = Vertex(r.start.X + r.dir.X*t,
 		r.start.Y + r.dir.Y*t,
 		r.start.Z + r.dir.Z*t, 1);
