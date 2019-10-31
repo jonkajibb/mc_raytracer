@@ -21,7 +21,7 @@ public:
 	bool shading(Ray &importance) {
 		//bool intersected = false;
 		double t = 1000;
-		double angle;
+		//double angle;
 		double minDistance = 10000;
 		double d; //Distance to sphere intersection
 

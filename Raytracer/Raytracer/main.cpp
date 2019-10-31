@@ -7,7 +7,6 @@
 //#include <stdio.h>
 
 #include "Triangle.h"
-#include "Scene.h"
 #include "Camera.h"
 #include "Sphere.h"
 

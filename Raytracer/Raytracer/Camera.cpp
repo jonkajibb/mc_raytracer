@@ -56,7 +56,7 @@ void Camera::render(Scene s)
 }
 
 ColorDbl Camera::castRay(Ray ray, Scene s) {
-	double t;
+	double t = 0;
 	double d = 1000;
 	double minDistance = 1000;
 	Triangle minTriangle;
@@ -140,7 +140,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 	}
 
 	/*
-	//skit här nere
+	//skit hï¿½r nere
 	if (s.shading(ray)) {
 		return minTriangle.color * 0.2;
 	}*/

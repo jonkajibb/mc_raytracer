@@ -9,9 +9,9 @@ class Sphere
 public:
 
 	Sphere() {
-		center;
+		//center;
 		radius = 0;
-		color;
+		//color;
 	}
 
 	Sphere(Vertex c, double r, Materials m, ColorDbl col) : center(c), radius(r), material(m), color(col) {};
@@ -40,6 +40,8 @@ public:
 		n = Direction(Phit.X - center.X, Phit.Y - center.Y, Phit.Z - center.Z).normalize();
 
 		d = d0;
+        
+        return true;
 	};
 
 	bool solveQuadratic(const double &a, const double &b, const double &c, double &x0, double &x1)

@@ -5,11 +5,13 @@ const double EPS = 1e-4;
 
 Triangle::Triangle()
 {
-	v1;
+	/*
+    v1;
 	v2;
 	v3;
 	color;
 	normal;
+     */
 }
 
 //Constructor for diffuse surfaces
