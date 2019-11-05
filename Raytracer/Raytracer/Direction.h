@@ -16,17 +16,17 @@ public:
 	Direction()
 		: X(0), Y(0), Z(0) { };
 	//Constructor
-	Direction(double x, double y, double z)
+	Direction(float x, float y, float z)
 		: X(x), Y(y), Z(z) { };
 
-	double dot(Direction& d1)// , Direction& d2)
+	float dot(Direction& d1)// , Direction& d2)
 	{
-		double result = (X * d1.X) + (Y * d1.Y) + (Z * d1.Z);
+		float result = (X * d1.X) + (Y * d1.Y) + (Z * d1.Z);
 		//std::cout << result << std::endl;
 		return result;
 	};
 
-	Direction operator*(double const num) {
+	Direction operator*(float num) {
 		return Direction(X*num, Y*num, Z*num);
 	};
 
@@ -35,9 +35,9 @@ public:
 	};
 
 	Direction normalize() {
-      double x1 = X;
-      double y1 = Y;
-      double z1 = Z;
+      float x1 = X;
+      float y1 = Y;
+      float z1 = Z;
 
       //dividing vector by its length/magnitude
       X = x1 / sqrt((x1*x1) + (y1 * y1) + (z1 * z1));
@@ -49,23 +49,23 @@ public:
 
 	Direction crossProduct(Direction d1)
 	{
-		double Nx = this->Y * d1.Z - this->Z * d1.Y;
-		double Ny = this->Z * d1.X - this->X * d1.Z;
-		double Nz = this->X * d1.Y - this->Y * d1.X;
+		float Nx = this->Y * d1.Z - this->Z * d1.Y;
+		float Ny = this->Z * d1.X - this->X * d1.Z;
+		float Nz = this->X * d1.Y - this->Y * d1.X;
 
 		return Direction(Nx, Ny, Nz);
 	}
 
-	double getScalar() {
-		double s;
+	float getScalar() {
+		float s;
 		s = sqrt(this->X*this->X + this->Y*this->Y + this->Z*this->Z);
 		return s;
 	};
 
 	//DATA MEMBERS
-	double X;
-	double Y;
-	double Z;
+	float X;
+	float Y;
+	float Z;
 
 private:
 

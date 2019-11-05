@@ -14,17 +14,17 @@ public:
 		//color;
 	}
 
-	Sphere(Vertex c, double r, Materials m, ColorDbl col) : center(c), radius(r), material(m), color(col) {};
-	Sphere(Vertex c, double r, Materials m) : center(c), radius(r), material(m) {};
+	Sphere(Vertex c, float r, Materials m, ColorDbl col) : center(c), radius(r), material(m), color(col) {};
+	Sphere(Vertex c, float r, Materials m) : center(c), radius(r), material(m) {};
 
-	bool sphereIntersection(Ray &r, double &d, Direction &n) {
+	bool sphereIntersection(Ray &r, float &d) {
 
-		double d0, d1;
+		float d0, d1;
 
 		Direction L(r.start.X - center.X, r.start.Y - center.Y, r.start.Z - center.Z);
-		double a = r.dir.dot(r.dir);
-		double b = 2 * r.dir.dot(L);
-		double c = L.dot(L) - (radius*radius);
+		float a = r.dir.dot(r.dir);
+		float b = 2 * r.dir.dot(L);
+		float c = L.dot(L) - (radius*radius);
 
 		if (!solveQuadratic(a, b, c, d0, d1)) return false;
 
@@ -35,22 +35,20 @@ public:
 			if (d0 < 0) return false;
 		}
 
-		Vertex Phit(r.start.X - d0 * r.dir.X, r.start.Y - d0 * r.dir.Y, r.start.Z - d0 * r.dir.Z, 1);
-		//normal
-		n = Direction(Phit.X - center.X, Phit.Y - center.Y, Phit.Z - center.Z).normalize();
+		
 
 		d = d0;
         
         return true;
 	};
 
-	bool solveQuadratic(const double &a, const double &b, const double &c, double &x0, double &x1)
+	bool solveQuadratic(const float &a, const float &b, const float &c, float &x0, float &x1)
 	{
-		double discr = b * b - 4 * a * c;
+		float discr = b * b - 4 * a * c;
 		if (discr < 0) return false;
 		else if (discr == 0) x0 = x1 = -0.5 * b / a;
 		else {
-			double q = (b > 0) ?
+			float q = (b > 0) ?
 				-0.5 * (b + sqrt(discr)) :
 				-0.5 * (b - sqrt(discr));
 			x0 = q / a;
@@ -62,7 +60,7 @@ public:
 	}
 
 	Vertex center;
-	double radius;
+	float radius;
 	ColorDbl color;
 	Materials material;
 

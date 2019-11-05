@@ -29,15 +29,15 @@ public:
 	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m, ColorDbl c);
 	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m);
 
-	bool rayIntersection(Ray &r, double &t);
+	bool rayIntersection(Ray &r, float &t);
 
 	Direction findNormal(Vertex a, Vertex b, Vertex c);
 
-	double dot(Direction d1, Direction d2);
+	float dot(Direction d1, Direction d2);
 
 	Direction crossProduct(Direction d1, Direction d2);
 
-	std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
+	//std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
 
 	//ColorDbl shading(Ray &importance, Light l, std::vector<Triangle> triangles);
 

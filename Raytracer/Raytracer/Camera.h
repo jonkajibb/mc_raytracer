@@ -26,7 +26,7 @@ public:
 
 	void render(Scene s);
 
-	ColorDbl castRay(Ray& ray, Scene& s);
+	ColorDbl castRay(Ray ray, Scene s);
 
 	//Positions of eyes
 	Vertex eye1 = Vertex(-1, 0, 0, 1);

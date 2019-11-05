@@ -135,10 +135,6 @@
     <ClCompile Include="ColorDbl.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Pixel.cpp" />
-    <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

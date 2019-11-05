@@ -20,10 +20,10 @@ public:
 
 	bool shading(Ray &importance) {
 		//bool intersected = false;
-		double t = 1000;
-		//double angle;
-		double minDistance = 10000;
-		double d; //Distance to sphere intersection
+		float t = 1000;
+		//float angle;
+		float minDistance = 10000;
+		float d; //Distance to sphere intersection
 
 		Sphere minSphere;
 		Direction sphereNormal;
@@ -62,7 +62,7 @@ public:
 		//Check if a sphere was also intersected, to set d
 		for (int j = 0; j < spheres.size(); j++)
 		{
-			if (spheres[j].sphereIntersection(sRay, d, sphereNormal)) {
+			if (spheres[j].sphereIntersection(sRay, d)) {
 				//minSphere = spheres[j];
 				//intersected = true;
 			}

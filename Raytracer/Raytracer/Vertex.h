@@ -8,14 +8,14 @@ public:
 	Vertex() : X(0), Y(0), Z(0), W(0) { };
 
 	//Contructor
-	Vertex(double x, double y, double z, double w)
+	Vertex(float x, float y, float z, float w)
 		: X(x), Y(y), Z(z), W(w) { };
 
 	//DATA MEMBERS
-	double X;
-	double Y;
-	double Z;
-	double W;
+	float X;
+	float Y;
+	float Z;
+	float W;
 
 private:
 	

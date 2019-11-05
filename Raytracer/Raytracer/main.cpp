@@ -78,9 +78,9 @@ int main() {
 	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
 	//std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
-    Triangle wt5 = Triangle(rv2, fv2, fv3, Mirror, lightblue);// fv2, fv3, rv2, lightgreen);
+    Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
-	Triangle wt6 = Triangle(fv3, rv3, rv2, Mirror, lightblue);
+	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightblue);
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
@@ -131,6 +131,8 @@ int main() {
 	Triangle t4(a, b, c, Mirror);
 	std::cout << t4.normal.X << ", " << t4.normal.Y << ", " << t4.normal.Z << std::endl;
 
+	t2.normal = t2.normal * -1;
+
 	triangles.push_back(t1);
 	triangles.push_back(t2);
 	triangles.push_back(t3);
@@ -173,16 +175,15 @@ int main() {
 
 	//SKAPA SFÄÄÄÄÄÄÄR
     
-    /*
-	Vertex asdf(10, 3, -0.5, 1);
+	Vertex asdf(6, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
 	spheres.push_back(Sphere(asdf, 1.0, Mirror));
-     */
+    
 
 	//Fill scene with triangles, spheres and lights
 	Scene s;
 	s.tris = triangles;
-	//s.spheres = spheres;
+	s.spheres = spheres;
 	Light light(Vertex(5.0, 0.0, 4.5, 1), 0.9, white);
 	s.light = light;
 

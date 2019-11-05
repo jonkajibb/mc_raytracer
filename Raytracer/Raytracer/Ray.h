@@ -15,8 +15,7 @@ public:
 	//Constructor
     Ray(Vertex x, Direction d) {
       start = x;
-      dir = d;
-      dir.normalize();
+      dir = d.normalize();
     };
 
 	//ColorDbl shadowRay(Triangle &hitTri, Ray &importance, Vertex light);

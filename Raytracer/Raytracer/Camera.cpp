@@ -2,13 +2,14 @@
 #include <iostream>
 #include <algorithm>
 
+const float EPS = 1e-4;
 
 void Camera::render(Scene s)
 {
 	//side length of pixels: 0.0025
 	//center: y+0.00125, z-0.00125
-	double length = 0.0025;
-	double hLength = 0.00125; //half length
+	float length = 0.0025;
+	float hLength = 0.00125; //half length
 	Direction sphereNormal;
 
 	std::ofstream out("out.ppm");
@@ -56,15 +57,15 @@ void Camera::render(Scene s)
 	}
 }
 
-ColorDbl Camera::castRay(Ray& ray, Scene& s) {
-	double t = 0;
-	double d = 1000;
-	double minDistance = 10000;
+ColorDbl Camera::castRay(Ray ray, Scene s) {
+	float t = 0;
+	float d = 1000;
+	float minDistance = 10000;
 	Triangle minTriangle;
 	Sphere minSphere;
 	Direction sphereNormal;
 	Direction lightDir;
-	double angle;
+	float angle;
 	Direction reflection;
 	ColorDbl finalColor;
 	//Ray rRay; //reflected ray
@@ -80,24 +81,50 @@ ColorDbl Camera::castRay(Ray& ray, Scene& s) {
 				minDistance = t;
 				minTriangle = s.tris[i];
                 //std::cout << "Minimum distance: " << minDistance << std::endl;
-				//Determine endpoint of ray, used in shading
 				//ray.endTri = minTriangle;
+
+				//Determine endpoint of ray
+				//Before the rays endpoint was changed each time in the intersection func.
+				//even though that triangle could be behind something.
+				ray.end = Vertex(
+					ray.start.X + ray.dir.X*minDistance,
+					ray.start.Y + ray.dir.Y*minDistance,
+					ray.start.Z + ray.dir.Z*minDistance,
+					1);
 			}
 		}
 	}
 	//Check if a sphere was also intersected, to set d
 	for (int j = 0; j < s.spheres.size(); j++)
 	{
-		if (s.spheres[j].sphereIntersection(ray, d, sphereNormal)) {
+		if (s.spheres[j].sphereIntersection(ray, d)) {
 			minSphere = s.spheres[j];
+			//std::cout << d << std::endl;
+			ray.end = Vertex(ray.start.X + d * ray.dir.X,
+				ray.start.Y + d * ray.dir.Y,
+				ray.start.Z + d * ray.dir.Z,
+				1);
+			//normal
+			sphereNormal = Direction(ray.end.X - s.spheres[j].center.X,
+				ray.end.Y - s.spheres[j].center.Y,
+				ray.end.Z - s.spheres[j].center.Z);
+			sphereNormal = sphereNormal.normalize();
+
+			
+			//MOve ray hit point outside sphere, else the ray is stuck inside
+			ray.end.X += sphereNormal.X*EPS;
+			ray.end.Y += sphereNormal.Y*EPS;
+			ray.end.Z += sphereNormal.Z*EPS;
+
+			//break;
 		}
 	}
 
 	if (d < t) //If sphere
 	{
-        
 		if (minSphere.material == Mirror) {
 			//Reflection -> find new direction
+
 			reflection = ray.dir - sphereNormal*(2 * (ray.dir.dot(sphereNormal)));
 			Ray rRay = Ray(ray.end, reflection);
             return castRay(rRay, s);
@@ -116,29 +143,19 @@ ColorDbl Camera::castRay(Ray& ray, Scene& s) {
 	else //If triangle
 	{
 		if (minTriangle.material == Mirror) {
+			//Skapa lokalt koordinatsystem
 
             Direction myNormal = minTriangle.normal;
             Direction myIncoming = ray.dir;
             myIncoming.normalize();
-            //myNormal = myNormal*(-1);
-            //myIncoming = myIncoming*(-1);
             
-            
-			//Reflection -> find new direction
-			//reflection = ray.dir - myNormal * (2 * (ray.dir.dot(myNormal)));
-            
-            
-            //Direction myNormal = minTriangle.normal;
-            //Direction myIncoming = ray.dir*(-1);
             reflection = myIncoming - myNormal*(myNormal.dot(myIncoming))*2;
-           /* std::cout << "Direction: " << reflection.X << ", "
-                                       << reflection.Y << ", "
-                                       << reflection.Z << std::endl;
-             */
-            //Tror det är fel på ray.end här... Den startar liksom på väggen bakom tetraheden iställer för tetraheden.
+
+			//Tror det är fel på ray.end här... Den startar liksom på väggen bakom tetraheden iställer för tetraheden.
 			Ray rRay = Ray(ray.end, reflection);
+			//rRay.start.X = 10;
             //return ColorDbl(0, 0, 0);
-            return castRay(rRay, s);
+            finalColor = castRay(rRay, s);
 		}
 		else if (minTriangle.material == Diffuse) {
 			//finalColor = minTriangle.color;
@@ -148,9 +165,7 @@ ColorDbl Camera::castRay(Ray& ray, Scene& s) {
             Direction myNormal = minTriangle.normal;
 
 			angle = 1 - cos(myNormal.dot(lightDir));
-			//std::cout << minTriangle.normal.X << ", " << minTriangle.normal.Y << ", " << minTriangle.normal.Z << std::endl;
-			//std::cout << dotProduct << std::endl;
-			//std::cout << minTriangle.normal.getScalar() << std::endl;
+
 			if (angle < 0) {
 				finalColor = minTriangle.color * 0;
                 //finalColor = ColorDbl(255,255,255);
