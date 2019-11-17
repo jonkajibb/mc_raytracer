@@ -12,6 +12,9 @@
 #include "Ray.h"
 #include "Scene.h"
 #include <fstream> 
+#include <cstdlib>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 const int H = 800;
 const int W = 800;
@@ -26,7 +29,12 @@ public:
 
 	void render(Scene s);
 
-	ColorDbl castRay(Ray ray, Scene s);
+	ColorDbl castRay(Ray ray, Scene s, int &depth);
+
+	void createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb);
+
+	Direction hemisphere(const float &r1, const float &r2);
+
 
 	//Positions of eyes
 	Vertex eye1 = Vertex(-1, 0, 0, 1);

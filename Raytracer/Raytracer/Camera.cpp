@@ -2,7 +2,14 @@
 #include <iostream>
 #include <algorithm>
 
+
 const float EPS = 1e-4;
+
+float random_float(float min, float max) {
+
+	return ((float)rand() / RAND_MAX) * (max - min) + min;
+
+};
 
 void Camera::render(Scene s)
 {
@@ -11,6 +18,7 @@ void Camera::render(Scene s)
 	float length = 0.0025;
 	float hLength = 0.00125; //half length
 	Direction sphereNormal;
+	int depth;
 
 	std::ofstream out("out.ppm");
 
@@ -24,18 +32,15 @@ void Camera::render(Scene s)
 	{
 		for (int w = 0; w < W; w++)
 		{
-
-			//pixelPlane[h][w] = currentP;
-			//std::cout << image[w][h].X << std::endl;
-
 			Direction dir(currentP.X - eye1.X, currentP.Y - eye1.Y, currentP.Z - eye1.Z);
-
 			Ray ray = Ray(eye1, dir);
 			ColorDbl finalCol;
+			depth = 0;
+
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
 			
-			finalCol = castRay(ray, s);
+			finalCol = castRay(ray, s, depth);
 			
 			pixelPlane[w][h] = finalCol;
 
@@ -57,7 +62,7 @@ void Camera::render(Scene s)
 	}
 }
 
-ColorDbl Camera::castRay(Ray ray, Scene s) {
+ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	float t = 0;
 	float d = 1000;
 	float minDistance = 10000;
@@ -68,6 +73,8 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 	float angle;
 	Direction reflection;
 	ColorDbl finalColor;
+	ColorDbl indirectLighting;
+	int maxDepth = 5; //Number of indirect light bounces
 	//Ray rRay; //reflected ray
 
 	//Ray ray = this;
@@ -127,17 +134,22 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 
 			reflection = ray.dir - sphereNormal*(2 * (ray.dir.dot(sphereNormal)));
 			Ray rRay = Ray(ray.end, reflection);
-            return castRay(rRay, s);
+            return castRay(rRay, s, depth);
 		}
 		else if (minSphere.material == Diffuse) {
 			finalColor = minSphere.color;
-			/*lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
 			lightDir.normalize();
 			sphereNormal.normalize();
 			//std::cout << sphereNormal.X << ", " << sphereNormal.Y << ", " << sphereNormal.Z << std::endl;
 			angle = 1 - cos(lightDir.dot(sphereNormal));
 
-			return minSphere.color * angle;*/
+			finalColor = minSphere.color * angle;
+
+			//Check if surface should be shadowed
+			if (s.shading(ray)) {
+				finalColor = finalColor * 0.2;
+			}
 		}
 	}
 	else //If triangle
@@ -155,7 +167,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
 			Ray rRay = Ray(ray.end, reflection);
 			//rRay.start.X = 10;
             //return ColorDbl(0, 0, 0);
-            finalColor = castRay(rRay, s);
+            finalColor = castRay(rRay, s, depth);
 		}
 		else if (minTriangle.material == Diffuse) {
 			//finalColor = minTriangle.color;
@@ -171,19 +183,68 @@ ColorDbl Camera::castRay(Ray ray, Scene s) {
                 //finalColor = ColorDbl(255,255,255);
 			}
 			else {
-                //finalColor = ColorDbl(255,255,255);
-				finalColor = minTriangle.color * angle;
+				//----GLOBAL ILLUMINATION----
+				if (depth <= maxDepth) {
+					depth++;
+
+					Direction Nt;
+					Direction Nb;
+					float pdf = 1 / (2 * M_PI);
+
+					//Create local coordinate system
+					Direction norm = minTriangle.normal;
+					createCoordinateSystem(norm, Nt, Nb);
+
+					//float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction 
+					float r1 = random_float(0.0f, 1.0f);
+					//float r2 = (randf() % 100 + 1) / 100;
+					float r2 = random_float(0.0f, 1.0f);
+
+					Direction newDir = hemisphere(r1, r2);
+					newDir = newDir.normalize();
+					Direction newDirWorld(
+						newDir.X * Nb.X + newDir.Y * newDir.X + newDir.Z * Nt.X,
+						newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
+						newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);
+					// don't forget to divide by PDF and multiply by cos(theta)
+					newDirWorld = newDirWorld.normalize();
+					Ray indirectRay = Ray(ray.end, newDirWorld);
+
+					indirectLighting = indirectLighting + (castRay(indirectRay, s,depth) * r1);
+				}
+				
+				
+
+				//---------------------------
+				finalColor = (minTriangle.color + indirectLighting) * angle;
+
+				//Check if surface should be shadowed
+				if (s.shading(ray)) {
+					finalColor = finalColor * 0.5;
+				}
 			}
 		}
 	}
-
-	/*
-	//skit h�r nere
-	if (s.shading(ray)) {
-		return minTriangle.color * 0.2;
-	}*/
 
 	return finalColor;
 
 };
 
+void Camera::createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb)
+{
+	Nt = Direction(N.Z, 0, -N.X);
+	Nt = Nt.normalize();
+	Nb = N.crossProduct(Nt);
+};
+
+Direction Camera::hemisphere(const float &r1, const float &r2)
+{
+	// cos(theta) = r1 = y
+	// cos^2(theta) + sin^2(theta) = 1 -> sin(theta) = srtf(1 - cos^2(theta))
+	float sinTheta = sqrt(1 - r1 * r1);
+	float phi = 2 * M_PI * r2;
+	float x = sinTheta * cos(phi);
+	float y = cos(asin(sinTheta));
+	float z = sinTheta * sin(phi);
+	return Direction(x, y, z);
+};

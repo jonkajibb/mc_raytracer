@@ -47,7 +47,7 @@ public:
       return Direction(X, Y, Z);
     };
 
-	Direction crossProduct(Direction d1)
+	const Direction crossProduct(Direction &d1)
 	{
 		float Nx = this->Y * d1.Z - this->Z * d1.Y;
 		float Ny = this->Z * d1.X - this->X * d1.Z;

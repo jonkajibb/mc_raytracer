@@ -48,6 +48,12 @@ public:
 					minDistance = t;
 					//minTriangle = tris[i];
 					//intersected = true;
+
+					sRay.end = Vertex(
+						sRay.start.X + sRay.dir.X*minDistance,
+						sRay.start.Y + sRay.dir.Y*minDistance,
+						sRay.start.Z + sRay.dir.Z*minDistance,
+						1);
 				}
 				isec = Direction(sRay.end.X - sRay.start.X, sRay.end.Y - sRay.start.Y, sRay.end.Z - sRay.start.Z);
 
@@ -65,6 +71,16 @@ public:
 			if (spheres[j].sphereIntersection(sRay, d)) {
 				//minSphere = spheres[j];
 				//intersected = true;
+
+				sRay.end = Vertex(sRay.start.X + d * sRay.dir.X,
+					sRay.start.Y + d * sRay.dir.Y,
+					sRay.start.Z + d * sRay.dir.Z,
+					1);
+				//normal
+				sphereNormal = Direction(sRay.end.X - spheres[j].center.X,
+					sRay.end.Y - spheres[j].center.Y,
+					sRay.end.Z - spheres[j].center.Z);
+				sphereNormal = sphereNormal.normalize();
 			}
 
 			isec = Direction(sRay.end.X - sRay.start.X, sRay.end.Y - sRay.start.Y, sRay.end.Z - sRay.start.Z);
