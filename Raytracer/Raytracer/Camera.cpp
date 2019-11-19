@@ -24,7 +24,7 @@ void Camera::render(Scene s)
 
 	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
 
-	Vertex currentP(0, 1 - hLength, 1 - hLength, 1);
+	Vertex currentP(0, 1, 1, 1);
 
 
 	//Build image plane, 800x800 vertices
@@ -32,15 +32,42 @@ void Camera::render(Scene s)
 	{
 		for (int w = 0; w < W; w++)
 		{
-			Direction dir(currentP.X - eye1.X, currentP.Y - eye1.Y, currentP.Z - eye1.Z);
-			Ray ray = Ray(eye1, dir);
-			ColorDbl finalCol;
-			depth = 0;
-
+			
+            Vertex topLeft  = Vertex(0, currentP.Y-random_float(0.0, hLength),    currentP.Z-random_float(0.0, hLength), 1.0);
+            Vertex topRight = Vertex(0, currentP.Y-random_float(0.0, hLength),    currentP.Z-random_float(hLength, length), 1.0);
+            Vertex botLeft  = Vertex(0, currentP.Y-random_float(hLength, length), currentP.Z-random_float(0.0, hLength), 1.0);
+            Vertex botRight = Vertex(0, currentP.Y-random_float(hLength, length), currentP.Z-random_float(hLength, length), 1.0);
+            
+            Direction dir1(topLeft.X -  eye1.X, topLeft.Y - eye1.Y, topLeft.Z - eye1.Z);
+            Direction dir2(topRight.X - eye1.X, topLeft.Y - eye1.Y, topRight.Z - eye1.Z);
+            Direction dir3(botLeft.X -  eye1.X, topLeft.Y - eye1.Y, botLeft.Z - eye1.Z);
+            Direction dir4(botRight.X - eye1.X, topLeft.Y - eye1.Y, botRight.Z - eye1.Z);
+            
+			Ray ray_topLeft  = Ray(eye1, dir1);
+            Ray ray_topRight = Ray(eye1, dir2);
+            Ray ray_botLeft  = Ray(eye1, dir3);
+            Ray ray_botRight = Ray(eye1, dir4);
+            
+			ColorDbl finalCol1;
+            ColorDbl finalCol2;
+            ColorDbl finalCol3;
+            ColorDbl finalCol4;
+            
+            ColorDbl finalCol;
+			
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
 			
-			finalCol = castRay(ray, s, depth);
+            depth = 0;
+			finalCol1 = castRay(ray_topLeft,  s, depth);
+            depth = 0;
+            finalCol2 = castRay(ray_topRight, s, depth);
+            depth = 0;
+            finalCol3 = castRay(ray_botLeft,  s, depth);
+            depth = 0;
+            finalCol4 = castRay(ray_botRight, s, depth);
+            
+            finalCol = (finalCol1+finalCol2+finalCol3+finalCol4);
 			
 			pixelPlane[w][h] = finalCol;
 
@@ -183,6 +210,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                 //finalColor = ColorDbl(255,255,255);
 			}
 			else {
+                
 				//----GLOBAL ILLUMINATION----
 				if (depth <= maxDepth) {
 					depth++;
@@ -200,23 +228,26 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 					//float r2 = (randf() % 100 + 1) / 100;
 					float r2 = random_float(0.0f, 1.0f);
 
-					Direction newDir = hemisphere(r1, r2);
-					newDir = newDir.normalize();
+					Vertex newDir = hemisphere(r1, r2);
+					
 					Direction newDirWorld(
-						newDir.X * Nb.X + newDir.Y * newDir.X + newDir.Z * Nt.X,
+						newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
 						newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
 						newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);
-					// don't forget to divide by PDF and multiply by cos(theta)
+					// don't forget to divide by PDF and multiply by cos(theta)=r1
 					newDirWorld = newDirWorld.normalize();
-					Ray indirectRay = Ray(ray.end, newDirWorld);
+                    Vertex origin = Vertex(ray.end.X + newDirWorld.X*0.0001, ray.end.Y + newDirWorld.Y*0.0001, ray.end.Z + newDirWorld.Z*0.0001, 1.0);
+					Ray indirectRay = Ray(origin, newDirWorld);
 
-					indirectLighting = indirectLighting + (castRay(indirectRay, s,depth) * r1);
+                    //indirectLighting = indirectLighting + minTriangle.color;
+                    //return indirectLighting + (castRay(indirectRay, s,depth)*0.4);
+                    indirectLighting = (indirectLighting + (castRay(indirectRay, s,depth))/pdf)*r1;
 				}
-				
+
 				
 
-				//---------------------------
-				finalColor = (minTriangle.color + indirectLighting) * angle;
+				
+				finalColor = (minTriangle.color*angle)/M_PI + indirectLighting*2;
 
 				//Check if surface should be shadowed
 				if (s.shading(ray)) {
@@ -237,14 +268,14 @@ void Camera::createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb)
 	Nb = N.crossProduct(Nt);
 };
 
-Direction Camera::hemisphere(const float &r1, const float &r2)
+Vertex Camera::hemisphere(const float &r1, const float &r2)
 {
 	// cos(theta) = r1 = y
 	// cos^2(theta) + sin^2(theta) = 1 -> sin(theta) = srtf(1 - cos^2(theta))
 	float sinTheta = sqrt(1 - r1 * r1);
 	float phi = 2 * M_PI * r2;
 	float x = sinTheta * cos(phi);
-	float y = cos(asin(sinTheta));
+	//float y = cos(asin(sinTheta));
 	float z = sinTheta * sin(phi);
-	return Direction(x, y, z);
+	return Vertex(x, r1, z, 1.0);
 };

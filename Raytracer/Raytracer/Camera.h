@@ -33,7 +33,7 @@ public:
 
 	void createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb);
 
-	Direction hemisphere(const float &r1, const float &r2);
+	Vertex hemisphere(const float &r1, const float &r2);
 
 
 	//Positions of eyes
