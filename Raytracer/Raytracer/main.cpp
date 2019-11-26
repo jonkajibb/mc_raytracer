@@ -76,7 +76,7 @@ int main() {
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, Diffuse, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
-	//std::cout << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
+	std::cout << "WT4: " << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
     Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
@@ -86,6 +86,7 @@ int main() {
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
 	//south
 	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, red);
+    std::cout << "WT9: " << wt9.normal.X << ", " << wt9.normal.Y << ", " << wt9.normal.Z << std::endl;
 	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, red);
 	//south west
 	Triangle wt11 = Triangle(fv5, fv6, rv5, Diffuse, blue);

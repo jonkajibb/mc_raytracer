@@ -204,6 +204,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
             Direction myNormal = minTriangle.normal;
 
 			angle = 1 - cos(myNormal.dot(lightDir));
+            
 
 			if (angle < 0) {
 				finalColor = minTriangle.color * 0;
@@ -213,41 +214,56 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                 
 				//----GLOBAL ILLUMINATION----
 				if (depth <= maxDepth) {
-					depth++;
-
+					
+                    
 					Direction Nt;
 					Direction Nb;
 					float pdf = 1 / (2 * M_PI);
+                    float N = 5;
+                    
+                    for (uint32_t n = 0; n < N; ++n) {
+                    
 
-					//Create local coordinate system
-					Direction norm = minTriangle.normal;
-					createCoordinateSystem(norm, Nt, Nb);
+                        //Create local coordinate system
+                        Direction norm = minTriangle.normal;
+                        createCoordinateSystem(norm, Nt, Nb);
 
-					//float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction 
-					float r1 = random_float(0.0f, 1.0f);
-					//float r2 = (randf() % 100 + 1) / 100;
-					float r2 = random_float(0.0f, 1.0f);
+                        //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
+                        float r1 = random_float(0.0f, 1.0f);
+                        //float r2 = (randf() % 100 + 1) / 100;
+                        float r2 = random_float(0.0f, 1.0f);
 
-					Vertex newDir = hemisphere(r1, r2);
-					
-					Direction newDirWorld(
-						newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
-						newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
-						newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);
-					// don't forget to divide by PDF and multiply by cos(theta)=r1
-					newDirWorld = newDirWorld.normalize();
-                    Vertex origin = Vertex(ray.end.X + newDirWorld.X*0.0001, ray.end.Y + newDirWorld.Y*0.0001, ray.end.Z + newDirWorld.Z*0.0001, 1.0);
-					Ray indirectRay = Ray(origin, newDirWorld);
+                        Vertex newDir = hemisphere(r1, r2);
+                        
+                        Direction newDirWorld(
+                            newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
+                            newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
+                            newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);
+                        
+                        // don't forget to divide by PDF and multiply by cos(theta)=r1
+                        newDirWorld = newDirWorld.normalize();
+                        Vertex origin = Vertex(ray.end.X + newDirWorld.X*0.0001, ray.end.Y + newDirWorld.Y*0.0001, ray.end.Z + newDirWorld.Z*0.0001, 1.0);
+                        indirectLighting = indirectLighting + castRay(Ray(origin, newDirWorld),s,depth);
+                        indirectLighting.R = r1 * indirectLighting.R /pdf;
+                        indirectLighting.G = r1 * indirectLighting.G /pdf;
+                        indirectLighting.B = r1 * indirectLighting.B /pdf;
+                        depth++;
 
                     //indirectLighting = indirectLighting + minTriangle.color;
                     //return indirectLighting + (castRay(indirectRay, s,depth)*0.4);
-                    indirectLighting = (indirectLighting + (castRay(indirectRay, s,depth))/pdf)*r1;
+                    //indirectLighting = (indirectLighting + (castRay(indirectRay, s,depth))/pdf)*r1;
+                    
+                    }
+                    indirectLighting.R /= N;
+                    indirectLighting.B /= N;
+                    indirectLighting.G /= N;
 				}
-
-				
+                
+                
 
 				
 				finalColor = (minTriangle.color*angle)/M_PI + indirectLighting*2;
+                
 
 				//Check if surface should be shadowed
 				if (s.shading(ray)) {
