@@ -1,7 +1,8 @@
 #include "Camera.h"
 #include <iostream>
 #include <algorithm>
-
+#include "glm/glm.hpp"
+#include "glm/gtx/rotate_vector.hpp"
 
 const float EPS = 1e-4;
 
@@ -26,7 +27,6 @@ void Camera::render(Scene s)
 
 	Vertex currentP(0, 1, 1, 1);
 
-
 	//Build image plane, 800x800 vertices
 	for (int h = 0; h < H; h++)
 	{
@@ -47,27 +47,20 @@ void Camera::render(Scene s)
             Ray ray_topRight = Ray(eye1, dir2);
             Ray ray_botLeft  = Ray(eye1, dir3);
             Ray ray_botRight = Ray(eye1, dir4);
-            
-			ColorDbl finalCol1;
-            ColorDbl finalCol2;
-            ColorDbl finalCol3;
-            ColorDbl finalCol4;
-            
-            ColorDbl finalCol;
 			
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
 			
             depth = 0;
-			finalCol1 = castRay(ray_topLeft,  s, depth);
+			ColorDbl finalCol1 = castRay(ray_topLeft,  s, depth);
             depth = 0;
-            finalCol2 = castRay(ray_topRight, s, depth);
+            ColorDbl finalCol2 = castRay(ray_topRight, s, depth);
             depth = 0;
-            finalCol3 = castRay(ray_botLeft,  s, depth);
+            ColorDbl finalCol3 = castRay(ray_botLeft,  s, depth);
             depth = 0;
-            finalCol4 = castRay(ray_botRight, s, depth);
+            ColorDbl finalCol4 = castRay(ray_botRight, s, depth);
             
-            finalCol = (finalCol1+finalCol2+finalCol3+finalCol4);
+            ColorDbl finalCol = (finalCol1+finalCol2+finalCol3+finalCol4);
 			
 			pixelPlane[w][h] = finalCol;
 
@@ -218,46 +211,57 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                     
 					Direction Nt;
 					Direction Nb;
+					//Incoming ray to glm vector
+					glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
 					float pdf = 1 / (2 * M_PI);
-                    float N = 5;
-                    
-                    for (uint32_t n = 0; n < N; ++n) {
-                    
 
-                        //Create local coordinate system
-                        Direction norm = minTriangle.normal;
-                        createCoordinateSystem(norm, Nt, Nb);
+                    //Create local coordinate system------------
+                    glm::vec3 localZ = glm::normalize(glm::vec3(
+						minTriangle.normal.X,
+						minTriangle.normal.Y, 
+						minTriangle.normal.Z));
+					glm::vec3 localX = glm::normalize(inc - (localZ * dot(inc, localZ)));
+					glm::vec3 localY = cross(-localX, localY);
+					//-------------------------------------------
 
-                        //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
-                        float r1 = random_float(0.0f, 1.0f);
-                        //float r2 = (randf() % 100 + 1) / 100;
-                        float r2 = random_float(0.0f, 1.0f);
+                    //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
+                    float r1 = random_float(0.0f, 1.0f);
+                    //float r2 = (randf() % 100 + 1) / 100;
+                    float r2 = random_float(0.0f, 1.0f);
 
-                        Vertex newDir = hemisphere(r1, r2);
+					float theta = asin(sqrt(r1));
+					float phi = 2.0f * M_PI * r2;
+
+					glm::vec3 out = -inc;
+
+					out = glm::rotate(out, phi, localZ);
+					out = glm::rotate(out, theta, localY);
+
+                    //Vertex newDir = hemisphere(r1, r2);
                         
-                        Direction newDirWorld(
-                            newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
-                            newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
-                            newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);
+                    /*Direction newDirWorld(
+                        newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
+                        newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
+                        newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);*/
                         
-                        // don't forget to divide by PDF and multiply by cos(theta)=r1
-                        newDirWorld = newDirWorld.normalize();
-                        Vertex origin = Vertex(ray.end.X + newDirWorld.X*0.0001, ray.end.Y + newDirWorld.Y*0.0001, ray.end.Z + newDirWorld.Z*0.0001, 1.0);
-                        indirectLighting = indirectLighting + castRay(Ray(origin, newDirWorld),s,depth);
-                        indirectLighting.R = r1 * indirectLighting.R /pdf;
-                        indirectLighting.G = r1 * indirectLighting.G /pdf;
-                        indirectLighting.B = r1 * indirectLighting.B /pdf;
-                        depth++;
+                    // don't forget to divide by PDF and multiply by cos(theta)=r1
+                    //newDirWorld = newDirWorld.normalize();
+					Direction outVector = Direction(out.x, out.y, out.z).normalize();
+                    Vertex origin = Vertex(ray.end.X + outVector.X*0.0001, 
+						ray.end.Y + outVector.Y*0.0001, 
+						ray.end.Z + outVector.Z*0.0001, 1.0);
+
+                    indirectLighting = indirectLighting + castRay(Ray(origin, outVector),s,depth);
+                    /*indirectLighting.R = r1 * indirectLighting.R;
+                    indirectLighting.G = r1 * indirectLighting.G;
+                    indirectLighting.B = r1 * indirectLighting.B;*/
+                    depth++;
 
                     //indirectLighting = indirectLighting + minTriangle.color;
                     //return indirectLighting + (castRay(indirectRay, s,depth)*0.4);
                     //indirectLighting = (indirectLighting + (castRay(indirectRay, s,depth))/pdf)*r1;
                     
                     }
-                    indirectLighting.R /= N;
-                    indirectLighting.B /= N;
-                    indirectLighting.G /= N;
-				}
                 
                 
 
@@ -275,23 +279,4 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 
 	return finalColor;
 
-};
-
-void Camera::createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb)
-{
-	Nt = Direction(N.Z, 0, -N.X);
-	Nt = Nt.normalize();
-	Nb = N.crossProduct(Nt);
-};
-
-Vertex Camera::hemisphere(const float &r1, const float &r2)
-{
-	// cos(theta) = r1 = y
-	// cos^2(theta) + sin^2(theta) = 1 -> sin(theta) = srtf(1 - cos^2(theta))
-	float sinTheta = sqrt(1 - r1 * r1);
-	float phi = 2 * M_PI * r2;
-	float x = sinTheta * cos(phi);
-	//float y = cos(asin(sinTheta));
-	float z = sinTheta * sin(phi);
-	return Vertex(x, r1, z, 1.0);
 };
