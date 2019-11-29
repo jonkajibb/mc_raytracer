@@ -205,70 +205,69 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 			}
 			else {
                 
-				//----GLOBAL ILLUMINATION----
-				if (depth <= maxDepth) {
-					
-                    
-					Direction Nt;
-					Direction Nb;
-					//Incoming ray to glm vector
-					glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
-					float pdf = 1 / (2 * M_PI);
-
-                    //Create local coordinate system------------
-                    glm::vec3 localZ = glm::normalize(glm::vec3(
-						minTriangle.normal.X,
-						minTriangle.normal.Y, 
-						minTriangle.normal.Z));
-					glm::vec3 localX = glm::normalize(inc - (localZ * dot(inc, localZ)));
-					glm::vec3 localY = cross(-localX, localY);
-					//-------------------------------------------
-
-                    //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
-                    float r1 = random_float(0.0f, 1.0f);
-                    //float r2 = (randf() % 100 + 1) / 100;
-                    float r2 = random_float(0.0f, 1.0f);
-
-					float theta = asin(sqrt(r1));
-					float phi = 2.0f * M_PI * r2;
-
-					glm::vec3 out = -inc;
-
-					out = glm::rotate(out, phi, localZ);
-					out = glm::rotate(out, theta, localY);
-
-                    //Vertex newDir = hemisphere(r1, r2);
+                for(int N = 0; N < 8; N++){
+                
+                    //----GLOBAL ILLUMINATION----
+                    if (depth <= maxDepth) {
                         
-                    /*Direction newDirWorld(
-                        newDir.X * Nb.X + newDir.Y * minTriangle.normal.X + newDir.Z * Nt.X,
-                        newDir.X * Nb.Y + newDir.Y * minTriangle.normal.Y + newDir.Z * Nt.Y,
-                        newDir.X * Nb.Z + newDir.Y * minTriangle.normal.Z + newDir.Z * Nt.Z);*/
+                        depth++;
                         
-                    // don't forget to divide by PDF and multiply by cos(theta)=r1
-                    //newDirWorld = newDirWorld.normalize();
-					Direction outVector = Direction(out.x, out.y, out.z).normalize();
-                    Vertex origin = Vertex(ray.end.X + outVector.X*0.0001, 
-						ray.end.Y + outVector.Y*0.0001, 
-						ray.end.Z + outVector.Z*0.0001, 1.0);
+                        
+                        Direction Nt;
+                        Direction Nb;
+                        //Incoming ray to glm vector
+                        glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
+                        float pdf = 1 / (2 * M_PI);
 
-                    indirectLighting = indirectLighting + castRay(Ray(origin, outVector),s,depth);
-                    /*indirectLighting.R = r1 * indirectLighting.R;
-                    indirectLighting.G = r1 * indirectLighting.G;
-                    indirectLighting.B = r1 * indirectLighting.B;*/
-                    depth++;
+                        //Create local coordinate system------------
+                        glm::vec3 localZ = glm::normalize(glm::vec3(
+                            minTriangle.normal.X,
+                            minTriangle.normal.Y,
+                            minTriangle.normal.Z));
+                        glm::vec3 localX = glm::normalize(inc - (localZ * dot(inc, localZ)));
+                        glm::vec3 localY = cross(-localX, localZ);
+                        //-------------------------------------------
 
-                    //indirectLighting = indirectLighting + minTriangle.color;
-                    //return indirectLighting + (castRay(indirectRay, s,depth)*0.4);
-                    //indirectLighting = (indirectLighting + (castRay(indirectRay, s,depth))/pdf)*r1;
-                    
-                    }
+                        //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
+                        float r1 = random_float(0.0f, 1.0f);
+                        //float r2 = (randf() % 100 + 1) / 100;
+                        float r2 = random_float(0.0f, 1.0f);
+
+                        float theta = asin(sqrt(r1)); //Inclination angle
+                        float phi = 2.0f * M_PI * r2; //Azimuth
+
+                        glm::vec3 out = localZ;
+
+                        glm::vec3 outDir = glm::normalize(glm::rotate(out, phi, localZ));
+                        outDir = glm::normalize(glm::rotate(out, theta, localY));
+                        
+                        /*
+                        Direction outWorld(
+                            outDir.x * localX.x + outDir.y * minTriangle.normal.X + outDir.z * localY.x,
+                            outDir.x * localX.y + outDir.y * minTriangle.normal.Y + outDir.z * localY.y,
+                            outDir.x * localX.z + outDir.y * minTriangle.normal.Z + outDir.z * localY.z);
+                         */
+                        
+                        
+                        Direction outWorld((ray.end.X + outDir.x),
+                                           (ray.end.Y + outDir.y),
+                                           (ray.end.Z + outDir.z));
+                        
+                        
+                        Ray outRay = Ray(ray.end, outWorld);
+
+                        indirectLighting = indirectLighting + castRay(outRay,s,depth);
+                      
+                        
+                        }
                 
+                }
                 
-
-				
-				finalColor = (minTriangle.color*angle)/M_PI + indirectLighting*2;
+                //8an är N. Fixa detta nån gång...
+                indirectLighting = indirectLighting/8;
                 
-
+                finalColor = (minTriangle.color*angle)/M_PI + indirectLighting*2;
+                
 				//Check if surface should be shadowed
 				if (s.shading(ray)) {
 					finalColor = finalColor * 0.5;
