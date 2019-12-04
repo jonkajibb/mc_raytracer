@@ -26,10 +26,10 @@ public:
 		float d; //Distance to sphere intersection
 
 		Sphere minSphere;
-		Direction sphereNormal;
+		glm::vec3 sphereNormal;
 		Triangle minTriangle;
-		Direction lDir(light.pos.X - importance.end.X, light.pos.Y - importance.end.Y, light.pos.Z - importance.end.Z);
-		Direction isec;
+		glm::vec3 lDir = light.pos - importance.end;
+		glm::vec3 isec;
 
 
 		//ColorDbl light_i = l.color * l.intensity; //Light color*intenisty
@@ -49,19 +49,13 @@ public:
 					//minTriangle = tris[i];
 					//intersected = true;
 
-					sRay.end = Vertex(
-						sRay.start.X + sRay.dir.X*minDistance,
-						sRay.start.Y + sRay.dir.Y*minDistance,
-						sRay.start.Z + sRay.dir.Z*minDistance,
-						1);
+					sRay.end = sRay.start + glm::vec4(sRay.dir * minDistance, 1.0f);
 				}
-				isec = Direction(sRay.end.X - sRay.start.X, sRay.end.Y - sRay.start.Y, sRay.end.Z - sRay.start.Z);
+				isec = sRay.end - sRay.start;
 
-				if (isec.getScalar() < lDir.getScalar()) {
+				if (glm::length(isec) < glm::length(lDir)) {
 					return true;
 				}
-
-				
 			}
 		}
 
@@ -71,25 +65,18 @@ public:
 			if (spheres[j].sphereIntersection(sRay, d)) {
 				//minSphere = spheres[j];
 				//intersected = true;
+				sRay.end = sRay.start + glm::vec4(sRay.dir * d, 1.0f);
 
-				sRay.end = Vertex(sRay.start.X + d * sRay.dir.X,
-					sRay.start.Y + d * sRay.dir.Y,
-					sRay.start.Z + d * sRay.dir.Z,
-					1);
 				//normal
-				sphereNormal = Direction(sRay.end.X - spheres[j].center.X,
-					sRay.end.Y - spheres[j].center.Y,
-					sRay.end.Z - spheres[j].center.Z);
-				sphereNormal = sphereNormal.normalize();
+
+				sphereNormal = sRay.end - spheres[j].center;
+				sphereNormal = glm::normalize(sphereNormal);
 			}
 
-			isec = Direction(sRay.end.X - sRay.start.X, sRay.end.Y - sRay.start.Y, sRay.end.Z - sRay.start.Z);
+			isec = sRay.end - sRay.start;
 
-			if (isec.getScalar() < lDir.getScalar()) {
-				return true;
-			}
+			if (glm::length(isec) < glm::length(lDir)) return true;
 		}
-
 		return false;
 	};
 

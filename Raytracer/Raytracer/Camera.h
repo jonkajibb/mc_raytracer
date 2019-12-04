@@ -16,28 +16,28 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-const int H = 800;
-const int W = 800;
+const int H = 200;
+const int W = 200;
 
 class Camera
 {
 public:
 
 	Camera() {
-		pixelPlane.resize(800, std::vector<Pixel>(800, ColorDbl()));
+		pixelPlane.resize(H, std::vector<Pixel>(W, ColorDbl()));
 	};
 
 	void render(Scene s);
 
 	ColorDbl castRay(Ray ray, Scene s, int &depth);
 
-	void createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb);
+	//void createCoordinateSystem(Direction &N, Direction &Nt, Direction &Nb);
 
-	Vertex hemisphere(const float &r1, const float &r2);
+	//Vertex hemisphere(const float &r1, const float &r2);
 
 
 	//Positions of eyes
-	Vertex eye1 = Vertex(-1, 0, 0, 1);
+	glm::vec4 eye1 = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
 
 	std::vector<std::vector<Pixel>> pixelPlane;
 

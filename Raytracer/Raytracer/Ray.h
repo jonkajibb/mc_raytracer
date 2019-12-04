@@ -5,24 +5,24 @@
 //Has color represented by instance of ColorDbl.
 //Has normal stored as an instance of Direction.
 
-#include "Vertex.h"
 #include "Direction.h"
+#include <glm.hpp>
 
 class Ray
 {
 public:
 	Ray();
 	//Constructor
-    Ray(Vertex x, Direction d) {
+    Ray(glm::vec4 x, glm::vec3 d) {
       start = x;
-      dir = d.normalize();
+      dir = glm::normalize(d);
     };
 
 	//ColorDbl shadowRay(Triangle &hitTri, Ray &importance, Vertex light);
 
-	Vertex start;
-	Vertex end;
-	Direction dir;
+	glm::vec4 start;
+	glm::vec4 end;
+	glm::vec3 dir;
 	ColorDbl color;
 
 private:

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm.hpp>
+
 #include "Vertex.h"
 #include "ColorDbl.h"
 
@@ -11,9 +13,9 @@ public:
 	//	color;
 	}
 
-	Light(Vertex p, double i, ColorDbl c) : pos(p), intensity(i), color(c) {};
+	Light(glm::vec4 p, double i, ColorDbl c) : pos(p), intensity(i), color(c) {};
 	
-	Vertex pos;
+	glm::vec4 pos;
 	double intensity;
 	ColorDbl color;
 private:

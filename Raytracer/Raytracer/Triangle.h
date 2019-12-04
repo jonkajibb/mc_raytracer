@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
+#include <glm.hpp>
 
 #include "Light.h"
 #include "Ray.h"
@@ -26,27 +27,23 @@ public:
 	Triangle();
 
 	//Constructor
-	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m, ColorDbl c);
-	Triangle(Vertex v1, Vertex v2, Vertex v3, Materials m);
+	Triangle(glm::vec4 v1, glm::vec4 v2, glm::vec4 v3, Materials m, ColorDbl c);
+	Triangle(glm::vec4 v1, glm::vec4 v2, glm::vec4 v3, Materials m);
 
 	bool rayIntersection(Ray &r, float &t);
 
-	Direction findNormal(Vertex a, Vertex b, Vertex c);
-
-	float dot(Direction d1, Direction d2);
-
-	Direction crossProduct(Direction d1, Direction d2);
+	//glm::vec3 findNormal(glm::vec4 a, glm::vec4 b, glm::vec4 c);
 
 	//std::vector<Triangle> createTetrahedron(Vertex origo, ColorDbl clr);
 
 	//ColorDbl shading(Ray &importance, Light l, std::vector<Triangle> triangles);
 
-	Vertex v1;
-	Vertex v2;
-	Vertex v3;
+	glm::vec4 v1;
+	glm::vec4 v2;
+	glm::vec4 v3;
 	Materials material;
 	ColorDbl color;
-	Direction normal;
+	glm::vec3 normal;
 private:
 
 };

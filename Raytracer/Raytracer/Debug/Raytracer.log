@@ -1,19 +1,15 @@
 ﻿  Camera.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(43): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\colordbl.h(45): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\sphere.h(49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\sphere.h(51): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(69): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
 d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(7): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(19): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(20): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(125): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(216): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(233): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(252): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(251): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(250): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(216): warning C4189: 'pdf': local variable is initialized but not referenced
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(21): warning C4101: 'sphereNormal': unreferenced local variable
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(136): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(179): warning C4305: 'argument': truncation from 'double' to 'const float'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(235): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4189: 'pdf': local variable is initialized but not referenced
+  main.cpp
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe

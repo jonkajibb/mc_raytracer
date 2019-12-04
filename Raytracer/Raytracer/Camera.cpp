@@ -16,16 +16,15 @@ void Camera::render(Scene s)
 {
 	//side length of pixels: 0.0025
 	//center: y+0.00125, z-0.00125
-	float length = 0.0025;
-	float hLength = 0.00125; //half length
-	Direction sphereNormal;
+	float length = 2.0f / H;//0.0025;
+	float hLength = length / 2.0f;//0.00125; //half length
+	glm::vec3 sphereNormal;
 	int depth;
-
 	std::ofstream out("out.ppm");
 
 	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
 
-	Vertex currentP(0, 1, 1, 1);
+	glm::vec4 currentP = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
 
 	//Build image plane, 800x800 vertices
 	for (int h = 0; h < H; h++)
@@ -33,15 +32,27 @@ void Camera::render(Scene s)
 		for (int w = 0; w < W; w++)
 		{
 			
-            Vertex topLeft  = Vertex(0, currentP.Y-random_float(0.0, hLength),    currentP.Z-random_float(0.0, hLength), 1.0);
-            Vertex topRight = Vertex(0, currentP.Y-random_float(0.0, hLength),    currentP.Z-random_float(hLength, length), 1.0);
-            Vertex botLeft  = Vertex(0, currentP.Y-random_float(hLength, length), currentP.Z-random_float(0.0, hLength), 1.0);
-            Vertex botRight = Vertex(0, currentP.Y-random_float(hLength, length), currentP.Z-random_float(hLength, length), 1.0);
+			glm::vec4 topLeft  = glm::vec4(0,
+				currentP.y-random_float(0.0, hLength),
+				currentP.z-random_float(0.0, hLength),
+				1.0);
+			glm::vec4 topRight = glm::vec4(0,
+				currentP.y-random_float(0.0, hLength),
+				currentP.z-random_float(hLength, length),
+				1.0);
+			glm::vec4 botLeft  = glm::vec4(0,
+				currentP.y-random_float(hLength, length),
+				currentP.z-random_float(0.0, hLength),
+				1.0);
+			glm::vec4 botRight = glm::vec4(0,
+				currentP.y-random_float(hLength, length),
+				currentP.z-random_float(hLength, length),
+				1.0);
             
-            Direction dir1(topLeft.X -  eye1.X, topLeft.Y - eye1.Y, topLeft.Z - eye1.Z);
-            Direction dir2(topRight.X - eye1.X, topLeft.Y - eye1.Y, topRight.Z - eye1.Z);
-            Direction dir3(botLeft.X -  eye1.X, topLeft.Y - eye1.Y, botLeft.Z - eye1.Z);
-            Direction dir4(botRight.X - eye1.X, topLeft.Y - eye1.Y, botRight.Z - eye1.Z);
+			glm::vec3 dir1 = topLeft - eye1;
+			glm::vec3 dir2 = topRight - eye1;
+			glm::vec3 dir3 = botLeft - eye1;
+			glm::vec3 dir4 = botRight - eye1;
             
 			Ray ray_topLeft  = Ray(eye1, dir1);
             Ray ray_topRight = Ray(eye1, dir2);
@@ -60,8 +71,7 @@ void Camera::render(Scene s)
             depth = 0;
             ColorDbl finalCol4 = castRay(ray_botRight, s, depth);
             
-            ColorDbl finalCol = (finalCol1+finalCol2+finalCol3+finalCol4);
-			
+			ColorDbl finalCol = finalCol1+finalCol2+finalCol3+finalCol4;
 			pixelPlane[w][h] = finalCol;
 
 			out << pixelPlane[w][h].color.R
@@ -69,16 +79,22 @@ void Camera::render(Scene s)
 				<< ", " << pixelPlane[w][h].color.B
 				<< std::endl;
 
-			currentP.Y = currentP.Y - length;
+			currentP.y = currentP.y - length;
 
 		}
-		currentP.Z = currentP.Z - length; //step down
-		currentP.Y = 1 - hLength; //start from first position again
+		currentP.z = currentP.z - length; //step down
+		currentP.y = 1 - hLength; //start from first position again
 
-		if (h == 200) std::cout << "25% rendered..." << std::endl;
-		if (h == 400) std::cout << "50% rendered..." << std::endl;
-		if (h == 600) std::cout << "75% rendered..." << std::endl;
-		if (h == 799) std::cout << "100% rendered!"  << std::endl;
+		if (h == 800*0.1) std::cout << "10% rendered..." << std::endl;
+		if (h == 800*0.2) std::cout << "20% rendered..." << std::endl;
+		if (h == 800*0.3) std::cout << "30% rendered..." << std::endl;
+		if (h == 800*0.4) std::cout << "40% rendered..." << std::endl;
+		if (h == 800*0.5) std::cout << "50% rendered..." << std::endl;
+		if (h == 800*0.6) std::cout << "60% rendered..." << std::endl;
+		if (h == 800*0.7) std::cout << "70% rendered..." << std::endl;
+		if (h == 800*0.8) std::cout << "80% rendered..." << std::endl;
+		if (h == 800*0.9) std::cout << "90% rendered..." << std::endl;
+		if (h == 800) std::cout << "100% rendered..." << std::endl;
 	}
 }
 
@@ -88,16 +104,15 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	float minDistance = 10000;
 	Triangle minTriangle;
 	Sphere minSphere;
-	Direction sphereNormal;
-	Direction lightDir;
+	glm::vec3 sphereNormal;
+	glm::vec3 lightDir;
 	float angle;
-	Direction reflection;
+	glm::vec3 reflection;
 	ColorDbl finalColor;
-	ColorDbl indirectLighting;
+	ColorDbl indirectLighting = finalColor;
 	int maxDepth = 5; //Number of indirect light bounces
-	//Ray rRay; //reflected ray
+	const int N_samples = 8;
 
-	//Ray ray = this;
 
 	for (unsigned i = 0; i < s.tris.size(); i++)
 	{
@@ -112,12 +127,8 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 
 				//Determine endpoint of ray
 				//Before the rays endpoint was changed each time in the intersection func.
-				//even though that triangle could be behind something.
-				ray.end = Vertex(
-					ray.start.X + ray.dir.X*minDistance,
-					ray.start.Y + ray.dir.Y*minDistance,
-					ray.start.Z + ray.dir.Z*minDistance,
-					1);
+				//even though that triangle could be behind something
+				ray.end = ray.start + glm::vec4(ray.dir*minDistance, 1.0f);
 			}
 		}
 	}
@@ -127,23 +138,23 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 		if (s.spheres[j].sphereIntersection(ray, d)) {
 			minSphere = s.spheres[j];
 			//std::cout << d << std::endl;
-			ray.end = Vertex(ray.start.X + d * ray.dir.X,
-				ray.start.Y + d * ray.dir.Y,
-				ray.start.Z + d * ray.dir.Z,
-				1);
+			ray.end = glm::vec4(
+				ray.start.x + d * ray.dir.x,
+				ray.start.y + d * ray.dir.y,
+				ray.start.z + d * ray.dir.z,
+				1.0f);
 			//normal
-			sphereNormal = Direction(ray.end.X - s.spheres[j].center.X,
-				ray.end.Y - s.spheres[j].center.Y,
-				ray.end.Z - s.spheres[j].center.Z);
-			sphereNormal = sphereNormal.normalize();
-
+			sphereNormal = glm::normalize(glm::vec3(ray.end.x - s.spheres[j].center.x,
+				ray.end.y - s.spheres[j].center.y,
+				ray.end.z - s.spheres[j].center.z));
 			
-			//MOve ray hit point outside sphere, else the ray is stuck inside
-			ray.end.X += sphereNormal.X*EPS;
-			ray.end.Y += sphereNormal.Y*EPS;
-			ray.end.Z += sphereNormal.Z*EPS;
 
-			//break;
+
+			//MOve ray hit point outside sphere, else the ray is stuck inside
+			ray.end.x += sphereNormal.x*EPS;
+			ray.end.y += sphereNormal.y*EPS;
+			ray.end.z += sphereNormal.z*EPS;
+
 		}
 	}
 
@@ -151,18 +162,15 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	{
 		if (minSphere.material == Mirror) {
 			//Reflection -> find new direction
-
-			reflection = ray.dir - sphereNormal*(2 * (ray.dir.dot(sphereNormal)));
+			reflection = ray.dir - sphereNormal * (2.0f * dot(ray.dir, sphereNormal));
 			Ray rRay = Ray(ray.end, reflection);
-            return castRay(rRay, s, depth);
+			return castRay(rRay, s, depth);
 		}
 		else if (minSphere.material == Diffuse) {
 			finalColor = minSphere.color;
-			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
-			lightDir.normalize();
-			sphereNormal.normalize();
+			lightDir = s.light.pos - ray.end;
 			//std::cout << sphereNormal.X << ", " << sphereNormal.Y << ", " << sphereNormal.Z << std::endl;
-			angle = 1 - cos(lightDir.dot(sphereNormal));
+			angle = 1 - cos(dot(lightDir, sphereNormal));
 
 			finalColor = minSphere.color * angle;
 
@@ -177,54 +185,44 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 		if (minTriangle.material == Mirror) {
 			//Skapa lokalt koordinatsystem
 
-            Direction myNormal = minTriangle.normal;
-            Direction myIncoming = ray.dir;
-            myIncoming.normalize();
+            glm::vec3 myNormal = minTriangle.normal;
+            glm::vec3 myIncoming = ray.dir;
             
-            reflection = myIncoming - myNormal*(myNormal.dot(myIncoming))*2;
+            //reflection = myIncoming - myNormal*(dot(myNormal, myIncoming))*2;
+			reflection = glm::reflect(myIncoming, myNormal);
 
-			//Tror det är fel på ray.end här... Den startar liksom på väggen bakom tetraheden iställer för tetraheden.
 			Ray rRay = Ray(ray.end, reflection);
-			//rRay.start.X = 10;
-            //return ColorDbl(0, 0, 0);
+			
             finalColor = castRay(rRay, s, depth);
 		}
 		else if (minTriangle.material == Diffuse) {
 			//finalColor = minTriangle.color;
-			lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+			//lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
+			lightDir = glm::normalize(s.light.pos - ray.end);
 
-			lightDir.normalize();
-            Direction myNormal = minTriangle.normal;
-
-			angle = 1 - cos(myNormal.dot(lightDir));
+			angle = 1 - cos(dot(minTriangle.normal, lightDir));
             
 
 			if (angle < 0) {
 				finalColor = minTriangle.color * 0;
-                //finalColor = ColorDbl(255,255,255);
 			}
 			else {
+
+				finalColor = minTriangle.color * angle;
                 
-                for(int N = 0; N < 8; N++){
+                for(int n = 0; n < N_samples; n++){
                 
                     //----GLOBAL ILLUMINATION----
                     if (depth <= maxDepth) {
                         
                         depth++;
-                        
-                        
-                        Direction Nt;
-                        Direction Nb;
                         //Incoming ray to glm vector
-                        glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
+                        //glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
                         float pdf = 1 / (2 * M_PI);
 
                         //Create local coordinate system------------
-                        glm::vec3 localZ = glm::normalize(glm::vec3(
-                            minTriangle.normal.X,
-                            minTriangle.normal.Y,
-                            minTriangle.normal.Z));
-                        glm::vec3 localX = glm::normalize(inc - (localZ * dot(inc, localZ)));
+						glm::vec3 localZ = minTriangle.normal;
+                        glm::vec3 localX = glm::normalize(ray.dir - (localZ * dot(ray.dir, localZ)));
                         glm::vec3 localY = cross(-localX, localZ);
                         //-------------------------------------------
 
@@ -241,32 +239,26 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         glm::vec3 outDir = glm::normalize(glm::rotate(out, phi, localZ));
                         outDir = glm::normalize(glm::rotate(out, theta, localY));
                         
-                        /*
-                        Direction outWorld(
-                            outDir.x * localX.x + outDir.y * minTriangle.normal.X + outDir.z * localY.x,
-                            outDir.x * localX.y + outDir.y * minTriangle.normal.Y + outDir.z * localY.y,
-                            outDir.x * localX.z + outDir.y * minTriangle.normal.Z + outDir.z * localY.z);
-                         */
-                        
-                        
-                        Direction outWorld((ray.end.X + outDir.x),
-                                           (ray.end.Y + outDir.y),
-                                           (ray.end.Z + outDir.z));
-                        
-                        
-                        Ray outRay = Ray(ray.end, outWorld);
+						glm::vec3 outWorld = glm::vec3(
+							outDir.x * localY.x + outDir.y * localZ.x + outDir.z * localX.x,
+							outDir.x * localY.y + outDir.y * localZ.y + outDir.z * localX.y,
+							outDir.x * localY.z + outDir.y * localZ.z + outDir.z * localX.z);
 
-                        indirectLighting = indirectLighting + castRay(outRay,s,depth);
-                      
+                        /*Direction outWorld((ray.end.X + outDir.x),
+                                           (ray.end.Y + outDir.y),
+                                           (ray.end.Z + outDir.z));*/
+                        
+                        
+                        Ray outRay = Ray(ray.end, outDir);
+
+                        finalColor = finalColor + (castRay(outRay,s,depth));
                         
                         }
-                
                 }
                 
-                //8an är N. Fixa detta nån gång...
-                indirectLighting = indirectLighting/8;
+                //indirectLighting = indirectLighting / N_samples;
                 
-                finalColor = (minTriangle.color*angle)/M_PI + indirectLighting*2;
+				//finalColor = minTriangle.color*angle / M_PI + indirectLighting * 2;
                 
 				//Check if surface should be shadowed
 				if (s.shading(ray)) {

@@ -9,6 +9,7 @@
 #include "Triangle.h"
 #include "Camera.h"
 #include "Sphere.h"
+#include <glm.hpp>
 
 int main() {
 
@@ -16,7 +17,7 @@ int main() {
 	std::vector<Triangle> triangles;
 	std::vector<Triangle> tetrahedron;
 
-	Vertex eye(-1, 0, 0, 1);
+	glm::vec4 eye = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
 
 	Camera cam;
 
@@ -33,24 +34,24 @@ int main() {
 	//Pixel pixel_col[H][W];
 
 	//FLOOR
-	Vertex fv1 = Vertex(0, 6, -5, 1);
-	Vertex fv2 = Vertex(10, 6, -5, 1);
-	Vertex fv3 = Vertex(13, 0, -5, 1);
-	Vertex fv4 = Vertex(10, -6, -5, 1);
-	Vertex fv5 = Vertex(0, -6, -5, 1);
-	Vertex fv6 = Vertex(-5, 0, -5, 1);
+	glm::vec4 fv1 = glm::vec4(0, 6, -5, 1);
+	glm::vec4 fv2 = glm::vec4(10, 6, -5, 1);
+	glm::vec4 fv3 = glm::vec4(13, 0, -5, 1);
+	glm::vec4 fv4 = glm::vec4(10, -6, -5, 1);
+	glm::vec4 fv5 = glm::vec4(0, -6, -5, 1);
+	glm::vec4 fv6 = glm::vec4(-5, 0, -5, 1);
 
 	//ROOF
-	Vertex rv1 = Vertex(0, 6, 5, 1);
-	Vertex rv2 = Vertex(10, 6, 5, 1);
-	Vertex rv3 = Vertex(13, 0, 5, 1);
-	Vertex rv4 = Vertex(10, -6, 5, 1);
-	Vertex rv5 = Vertex(0, -6, 5, 1);
-	Vertex rv6 = Vertex(-5, 0, 5, 1);
+	glm::vec4 rv1 = glm::vec4(0, 6, 5, 1);
+	glm::vec4 rv2 = glm::vec4(10, 6, 5, 1);
+	glm::vec4 rv3 = glm::vec4(13, 0, 5, 1);
+	glm::vec4 rv4 = glm::vec4(10, -6, 5, 1);
+	glm::vec4 rv5 = glm::vec4(0, -6, 5, 1);
+	glm::vec4 rv6 = glm::vec4(-5, 0, 5, 1);
 
 	//CENTER
-	Vertex fc = Vertex(5, 0, -5, 1);
-	Vertex rc = Vertex(5, 0, 5, 1);
+	glm::vec4 fc = glm::vec4(5, 0, -5, 1);
+	glm::vec4 rc = glm::vec4(5, 0, 5, 1);
 
 	//Triangles for scene
 	//FLOOR
@@ -76,7 +77,7 @@ int main() {
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, Diffuse, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
-	std::cout << "WT4: " << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
+	//std::cout << "WT4: " << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
     Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
 	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
@@ -86,7 +87,7 @@ int main() {
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
 	//south
 	Triangle wt9 = Triangle(fv4, fv5, rv4, Diffuse, red);
-    std::cout << "WT9: " << wt9.normal.X << ", " << wt9.normal.Y << ", " << wt9.normal.Z << std::endl;
+    //std::cout << "WT9: " << wt9.normal.X << ", " << wt9.normal.Y << ", " << wt9.normal.Z << std::endl;
 	Triangle wt10 = Triangle(fv5, rv5, rv4, Diffuse, red);
 	//south west
 	Triangle wt11 = Triangle(fv5, fv6, rv5, Diffuse, blue);
@@ -95,53 +96,53 @@ int main() {
 	//CREATE TETRAHEDRON IN ORIGO (9, 1, 0)
 	//std::vector<Triangle> tetra1;
 	//Triangle asd; //skittriangel
-	//tetra1 = asd.createTetrahedron(Vertex(8, -1, 0, 1), blue);
+	//tetra1 = asd.createTetrahedron(glm::vec4(8, -1, 0, 1), blue);
 
-	Vertex origo = Vertex(8, -1, 0, 1);
-	Vertex a, b, c, d;
+	glm::vec4 origo = glm::vec4(8, -1, 0, 1);
+	glm::vec4 a, b, c, d;
 	ColorDbl col(255, 200, 200);
 
 	std::vector<Triangle> tetra;
 
 	//closest
-	a.X = origo.X - 1.5;
-	a.Y = origo.Y;
-	a.Z = origo.Z - 1.5;
+	a.x = origo.x - 1.5f;
+	a.y = origo.y;
+	a.z = origo.z - 1.5f;
 
 	//back left
-	b.X = origo.X + 1;
-	b.Y = origo.Y + 1.5;
-	b.Z = origo.Z - 1.5;
+	b.x = origo.x + 1.0f;
+	b.y = origo.y + 1.5f;
+	b.z = origo.z - 1.5f;
 
 	//back right
-	c.X = origo.X + 1.5;
-	c.Y = origo.Y - 1.5;
-	c.Z = origo.Z - 1.5;
+	c.x = origo.x + 1.5f;
+	c.y = origo.y - 1.5f;
+	c.z = origo.z - 1.5f;
 
 	//top
-	d.X = origo.X;
-	d.Y = origo.Y;
-	d.Z = origo.Z + 1;
+	d.x = origo.x;
+	d.y = origo.y;
+	d.z = origo.z + 1;
 
 	Triangle t1(a, d, b, Mirror);
-	std::cout << t1.normal.X << ", " << t1.normal.Y << ", " << t1.normal.Z << std::endl;
+	//std::cout << t1.normal.x << ", " << t1.normal.y << ", " << t1.normal.z << std::endl;
 	Triangle t2(b, d, c, Mirror);
-	std::cout << t2.normal.X << ", " << t2.normal.Y << ", " << t2.normal.Z << std::endl;
+	//std::cout << t2.normal.x << ", " << t2.normal.y << ", " << t2.normal.z << std::endl;
 	Triangle t3(a, c, d, Mirror);
-	std::cout << t3.normal.X << ", " << t3.normal.Y << ", " << t3.normal.Z << std::endl;
+	//std::cout << t3.normal.x << ", " << t3.normal.y << ", " << t3.normal.z << std::endl;
 	Triangle t4(a, b, c, Mirror);
-	std::cout << t4.normal.X << ", " << t4.normal.Y << ", " << t4.normal.Z << std::endl;
+	//std::cout << t4.normal.x << ", " << t4.normal.y << ", " << t4.normal.z << std::endl;
 
-	t2.normal = t2.normal * -1;
+	//t2.normal = t2.normal * -1.0f;
 
 	triangles.push_back(t1);
 	triangles.push_back(t2);
 	triangles.push_back(t3);
 	triangles.push_back(t4);
 	/*
-	Vertex a(8, 1, 0, 1);
-	Vertex b(8.5, -1, 0, 1);
-	Vertex c(9, 0, 2, 1);
+	glm::vec4 a(8, 1, 0, 1);
+	glm::vec4 b(8.5, -1, 0, 1);
+	glm::vec4 c(9, 0, 2, 1);
 	Triangle bajs = Triangle(a, b, c, green);*/
 
 	//THE ROOM REPRESENTED AS A VECTOR
@@ -176,16 +177,15 @@ int main() {
 
 	//SKAPA SFÄÄÄÄÄÄÄR
     
-	Vertex asdf(6, 3, -0.5, 1);
+	glm::vec4 asdf = glm::vec4(6, 3, -0.5, 1);
 	std::vector<Sphere> spheres;
 	spheres.push_back(Sphere(asdf, 1.0, Mirror));
     
-
 	//Fill scene with triangles, spheres and lights
 	Scene s;
 	s.tris = triangles;
 	s.spheres = spheres;
-	Light light(Vertex(5.0, 0.0, 4.5, 1), 0.9, white);
+	Light light(glm::vec4(5.0, 0.0, 4.5, 1), 0.9, white);
 	s.light = light;
 
 	//Render "scene"
