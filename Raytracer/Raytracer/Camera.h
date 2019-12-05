@@ -16,8 +16,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-const int H = 200;
-const int W = 200;
+const int H = 800;
+const int W = 800;
 
 class Camera
 {

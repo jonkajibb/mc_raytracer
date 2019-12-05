@@ -210,7 +210,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 
 				finalColor = minTriangle.color * angle;
                 
-                for(int n = 0; n < N_samples; n++){
+                for(int n = 0; n < N_samples; n++) {
                 
                     //----GLOBAL ILLUMINATION----
                     if (depth <= maxDepth) {
@@ -232,28 +232,29 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         float r2 = random_float(0.0f, 1.0f);
 
                         float theta = asin(sqrt(r1)); //Inclination angle
-                        float phi = 2.0f * M_PI * r2; //Azimuth
+                        float phi = 2.0f * M_PI * r2; //Azimuth (TVÄRTOM??)
 
                         glm::vec3 out = localZ;
 
-                        glm::vec3 outDir = glm::normalize(glm::rotate(out, phi, localZ));
-                        outDir = glm::normalize(glm::rotate(out, theta, localY));
-                        
+                        glm::vec3 outDir = glm::normalize(glm::rotate(out, theta, localZ));
+                        outDir = glm::normalize(glm::rotate(out, phi, localY));
+						//std::cout << outDir.x << ", " << outDir.y << ", " << outDir.z << std::endl;
 						glm::vec3 outWorld = glm::vec3(
 							outDir.x * localY.x + outDir.y * localZ.x + outDir.z * localX.x,
 							outDir.x * localY.y + outDir.y * localZ.y + outDir.z * localX.y,
 							outDir.x * localY.z + outDir.y * localZ.z + outDir.z * localX.z);
-
-                        /*Direction outWorld((ray.end.X + outDir.x),
-                                           (ray.end.Y + outDir.y),
-                                           (ray.end.Z + outDir.z));*/
+						
+                        /*glm::vec3 outWorld = glm::vec3((ray.end.x + outDir.x),
+                                           (ray.end.y + outDir.y),
+                                           (ray.end.z + outDir.z));*/
                         
+						//IMPLEMENTERA RUSSIAN ROULETTE
                         
-                        Ray outRay = Ray(ray.end, outDir);
+                        Ray outRay = Ray(ray.end, outWorld);
 
                         finalColor = finalColor + (castRay(outRay,s,depth));
                         
-                        }
+                    }
                 }
                 
                 //indirectLighting = indirectLighting / N_samples;

@@ -1,15 +1,11 @@
 ﻿  Camera.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(7): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(21): warning C4101: 'sphereNormal': unreferenced local variable
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(136): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(179): warning C4305: 'argument': truncation from 'double' to 'const float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4305: 'initializing': truncation from 'double' to 'float'
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(235): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4189: 'pdf': local variable is initialized but not referenced
-  main.cpp
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
-d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe
+e:\mc_raytracer\raytracer\raytracer\scene.h(43): warning C4018: '<': signed/unsigned mismatch
+e:\mc_raytracer\raytracer\raytracer\scene.h(63): warning C4018: '<': signed/unsigned mismatch
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(7): warning C4305: 'initializing': truncation from 'double' to 'float'
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(21): warning C4101: 'sphereNormal': unreferenced local variable
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(136): warning C4018: '<': signed/unsigned mismatch
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(179): warning C4305: 'argument': truncation from 'double' to 'const float'
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4305: 'initializing': truncation from 'double' to 'float'
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(235): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+e:\mc_raytracer\raytracer\raytracer\camera.cpp(221): warning C4189: 'pdf': local variable is initialized but not referenced
+  Raytracer.vcxproj -> E:\mc_raytracer\Raytracer\Debug\Raytracer.exe
