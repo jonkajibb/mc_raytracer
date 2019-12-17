@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Raytracer\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\mc_raytracer\Raytracer\Raytracer\glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,8 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorDbl.h" />
-    <ClInclude Include="Light.h" />
+    <ClInclude Include="AreaLight.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Scene.h" />

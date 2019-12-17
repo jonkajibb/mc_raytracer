@@ -20,6 +20,7 @@ void Camera::render(Scene s)
 	float hLength = length / 2.0f;//0.00125; //half length
 	glm::vec3 sphereNormal;
 	int depth;
+	int rayPerPixel = 4; // sqrt(rayPerPixel) must be integer, 3x3 = 9
 	std::ofstream out("out.ppm");
 
 	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
@@ -111,9 +112,11 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	ColorDbl finalColor;
 	ColorDbl indirectLighting = finalColor;
 	int maxDepth = 5; //Number of indirect light bounces
+	const int K = 5;
 	const int N_samples = 1;
+	int k = 0;
 
-
+	// Triangles
 	for (unsigned i = 0; i < s.tris.size(); i++)
 	{
 		if (s.tris[i].rayIntersection(ray, t))
@@ -123,6 +126,26 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 				minDistance = t;
 				minTriangle = s.tris[i];
                 //std::cout << "Minimum distance: " << minDistance << std::endl;
+				//ray.endTri = minTriangle;
+
+				//Determine endpoint of ray
+				//Before the rays endpoint was changed each time in the intersection func.
+				//even though that triangle could be behind something
+				ray.end = ray.start + glm::vec4(ray.dir*minDistance, 1.0f);
+			}
+		}
+	}
+
+	// Area light sources
+	for (unsigned i = 0; i < s.areaLights.size(); i++)
+	{
+		if (s.areaLights[i].area.rayIntersection(ray, t))
+		{
+			//A triangle has been intersected, save t (distance between camera and triangle)
+			if (t < minDistance) {
+				minDistance = t;
+				minTriangle = s.areaLights[i].area;
+				//std::cout << "Minimum distance: " << minDistance << std::endl;
 				//ray.endTri = minTriangle;
 
 				//Determine endpoint of ray
@@ -148,8 +171,6 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 				ray.end.y - s.spheres[j].center.y,
 				ray.end.z - s.spheres[j].center.z));
 			
-
-
 			//MOve ray hit point outside sphere, else the ray is stuck inside
 			ray.end.x += sphereNormal.x*EPS;
 			ray.end.y += sphereNormal.y*EPS;
@@ -168,16 +189,20 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 		}
 		else if (minSphere.material == Diffuse) {
 			finalColor = minSphere.color;
-			lightDir = s.light.pos - ray.end;
+			lightDir = glm::normalize(s.areaLights[0].area.v1 - ray.end);
 			//std::cout << sphereNormal.X << ", " << sphereNormal.Y << ", " << sphereNormal.Z << std::endl;
 			angle = 1 - cos(dot(lightDir, sphereNormal));
 
 			finalColor = minSphere.color * angle;
 
 			//Check if surface should be shadowed
-			if (s.shading(ray)) {
-				finalColor = finalColor * 0.2;
+			// For loop if area light
+			for (int i = 0; i < K; i++) {
+				if (!s.shading(ray)) {
+					k++;
+				}
 			}
+			finalColor = finalColor * (k / K);
 		}
 	}
 	else //If triangle
@@ -198,7 +223,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 		else if (minTriangle.material == Diffuse) {
 			//finalColor = minTriangle.color;
 			//lightDir = Direction(s.light.pos.X - ray.end.X, s.light.pos.Y - ray.end.Y, s.light.pos.Z - ray.end.Z);
-			lightDir = glm::normalize(s.light.pos - ray.end);
+			lightDir = glm::normalize(s.areaLights[0].area.v1 - ray.end);
 
 			angle = 1 - cos(dot(minTriangle.normal, lightDir));
             
@@ -254,18 +279,25 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 
                         finalColor = finalColor + (castRay(outRay,s,depth));
                         
-                    }
-                }
+					}
+				}
                 
                 //indirectLighting = indirectLighting / N_samples;
                 
 				//finalColor = minTriangle.color*angle / M_PI + indirectLighting * 2;
                 
 				//Check if surface should be shadowed
-				if (s.shading(ray)) {
-					finalColor = finalColor * 0.5;
+				// For loop if area light
+				for (int i = 0; i < K; i++) {
+					if (!s.shading(ray)) {
+						k++;
+					}
 				}
+				finalColor = finalColor * (k / K);
 			}
+		}
+		else if (minTriangle.material == Light) {
+			finalColor = minTriangle.color;
 		}
 	}
 

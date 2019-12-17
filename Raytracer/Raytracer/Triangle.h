@@ -11,14 +11,16 @@
 #include <algorithm>
 #include <glm.hpp>
 
-#include "Light.h"
+//#include "pointLight.h"
+//#include "areaLight.h"
 #include "Ray.h"
 #include "math.h"
 #include "ColorDbl.h"
 
 enum Materials {
 	Diffuse,
-	Mirror
+	Mirror,
+	Light
 };
 
 class Triangle

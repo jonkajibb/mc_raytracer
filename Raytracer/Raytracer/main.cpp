@@ -101,7 +101,7 @@ int main() {
 	//Triangle asd; //skittriangel
 	//tetra1 = asd.createTetrahedron(glm::vec4(8, -1, 0, 1), blue);
 
-	glm::vec4 origo = glm::vec4(8, -1, 0, 1);
+	glm::vec4 origo = glm::vec4(7.5, -2, 0, 1);
 	glm::vec4 a, b, c, d;
 	ColorDbl col(255, 200, 200);
 
@@ -190,20 +190,19 @@ int main() {
 	s.spheres = spheres;
 	//Light light(glm::vec4(5.0, 0.0, 4.5, 1), 0.9, white);
 
-	//Area light
+	//Area lights
 	glm::vec4 lv1 = glm::vec4(6,-1, 4.95, 1);
 	glm::vec4 lv2 = glm::vec4(6, 1, 4.95, 1);
 	glm::vec4 lv3 = glm::vec4(7, 1, 4.95, 1);
-	glm::vec4 lv4 = glm::vec4(6, -1, 4.95, 1);
-	glm::vec4 lv5 = glm::vec4(7, 1, 4.95, 1);
-	glm::vec4 lv6 = glm::vec4(-5, -1, 4.95, 1);
-	Triangle alight1 = Triangle(lv1, lv2, lv3, Diffuse, white);
-	Triangle alight2 = Triangle(lv4, lv5, lv6, Diffuse, white);
-	Light areaLight1 = Light(alight1, 1.0f, white);
-	Light areaLight2 = Light(alight2, 1.0f, white);
+	glm::vec4 lv4 = glm::vec4(7, -1, 4.95, 1);
+	Triangle alight1 = Triangle(lv1, lv2, lv3, Light, white);
+	Triangle alight2 = Triangle(lv1, lv3, lv4, Light, white);
+	AreaLight areaLight1 = AreaLight(alight1, 1.0f, white);
+	AreaLight areaLight2 = AreaLight(alight2, 1.0f, white);
 	
-	s.light.push_back(areaLight1);
-	s.light.push_back(areaLight2);
+	//Push lights into scene
+	s.areaLights.push_back(areaLight1);
+	s.areaLights.push_back(areaLight2);
 
 	//Render "scene"
 	cam.render(s);

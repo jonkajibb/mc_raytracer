@@ -6,7 +6,8 @@
 
 #include "Triangle.h"
 #include "Sphere.h"
-#include "Light.h"
+#include "AreaLight.h" // kanske ger errors xdd
+#include "PointLight.h" // kanske ger errors xdd
 #include "Ray.h"
 #include <vector>
 
@@ -18,6 +19,12 @@ public:
 	//Scene(std::vector<Triangle> triangles) : tris(triangles) { };
 	//Scene(std::vector<Sphere> sph) : spheres(sph) { };
 
+	float random_float(float min, float max) {
+
+		return ((float)rand() / RAND_MAX) * (max - min) + min;
+
+	};
+
 	bool shading(Ray &importance) {
 		//bool intersected = false;
 		float t = 1000;
@@ -28,9 +35,15 @@ public:
 		Sphere minSphere;
 		glm::vec3 sphereNormal;
 		Triangle minTriangle;
-		glm::vec3 lDir = light.pos - importance.end;
+		//glm::vec3 lDir = light.pos - importance.end;
 		glm::vec3 isec;
 
+		//If area light, sample random point as SHADOW ray end point
+		float randX = random_float(6, 7);
+		float randY = random_float(-1, 1);
+		glm::vec4 lightSample = glm::vec4(randX, randY, areaLights[0].area.v1.z, 1.0);
+
+		glm::vec3 lDir = lightSample - importance.end;
 
 		//ColorDbl light_i = l.color * l.intensity; //Light color*intenisty
 
@@ -82,7 +95,8 @@ public:
 
 	std::vector<Triangle> tris;
 	std::vector<Sphere> spheres;
-	std::vector<Light> light;
+	std::vector<AreaLight> areaLights;
+	std::vector<PointLight> pointLights;
 
 private:
 };
