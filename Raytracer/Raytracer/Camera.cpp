@@ -111,7 +111,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	ColorDbl finalColor;
 	ColorDbl indirectLighting = finalColor;
 	int maxDepth = 5; //Number of indirect light bounces
-	const int N_samples = 8;
+	const int N_samples = 1;
 
 
 	for (unsigned i = 0; i < s.tris.size(); i++)
@@ -234,10 +234,10 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         float theta = asin(sqrt(r1)); //Inclination angle
                         float phi = 2.0f * M_PI * r2; //Azimuth (TVÄRTOM??)
 
-                        glm::vec3 out = localZ;
+                        glm::vec3 out = -ray.dir;
 
-                        glm::vec3 outDir = glm::normalize(glm::rotate(out, theta, localZ));
-                        outDir = glm::normalize(glm::rotate(out, phi, localY));
+                        glm::vec3 outDir = glm::normalize(glm::rotate(out, phi, localZ));
+                        outDir = glm::normalize(glm::rotate(outDir, theta, localY));
 						//std::cout << outDir.x << ", " << outDir.y << ", " << outDir.z << std::endl;
 						glm::vec3 outWorld = glm::vec3(
 							outDir.x * localY.x + outDir.y * localZ.x + outDir.z * localX.x,

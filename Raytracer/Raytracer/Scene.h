@@ -82,7 +82,7 @@ public:
 
 	std::vector<Triangle> tris;
 	std::vector<Sphere> spheres;
-	Light light;
+	std::vector<Light> light;
 
 private:
 };

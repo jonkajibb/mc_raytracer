@@ -80,8 +80,11 @@ int main() {
 	//std::cout << "WT4: " << wt4.normal.X << ", " << wt4.normal.Y << ", " << wt4.normal.Z << std::endl;
 	//north east
     Triangle wt5 = Triangle(rv2, fv2, fv3, Diffuse, lightblue);// fv2, fv3, rv2, lightgreen);
-	//std::cout << wt5.normal.X << ", " << wt5.normal.Y << ", " << wt5.normal.Z << std::endl;
+	//std::cout << wt5.normal.x << ", " << wt5.normal.y << ", " << wt5.normal.z << std::endl;
+	wt5.normal = wt5.normal * -1.0f;
 	Triangle wt6 = Triangle(fv3, rv3, rv2, Diffuse, lightblue);
+	wt6.normal = wt6.normal * -1.0f;
+
 	//south east
 	Triangle wt7 = Triangle(fv3, fv4, rv3, Diffuse, lightgreen);
 	Triangle wt8 = Triangle(fv4, rv4, rv3, Diffuse, lightgreen);
@@ -185,8 +188,22 @@ int main() {
 	Scene s;
 	s.tris = triangles;
 	s.spheres = spheres;
-	Light light(glm::vec4(5.0, 0.0, 4.5, 1), 0.9, white);
-	s.light = light;
+	//Light light(glm::vec4(5.0, 0.0, 4.5, 1), 0.9, white);
+
+	//Area light
+	glm::vec4 lv1 = glm::vec4(6,-1, 4.95, 1);
+	glm::vec4 lv2 = glm::vec4(6, 1, 4.95, 1);
+	glm::vec4 lv3 = glm::vec4(7, 1, 4.95, 1);
+	glm::vec4 lv4 = glm::vec4(6, -1, 4.95, 1);
+	glm::vec4 lv5 = glm::vec4(7, 1, 4.95, 1);
+	glm::vec4 lv6 = glm::vec4(-5, -1, 4.95, 1);
+	Triangle alight1 = Triangle(lv1, lv2, lv3, Diffuse, white);
+	Triangle alight2 = Triangle(lv4, lv5, lv6, Diffuse, white);
+	Light areaLight1 = Light(alight1, 1.0f, white);
+	Light areaLight2 = Light(alight2, 1.0f, white);
+	
+	s.light.push_back(areaLight1);
+	s.light.push_back(areaLight2);
 
 	//Render "scene"
 	cam.render(s);

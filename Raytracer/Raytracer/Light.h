@@ -13,11 +13,15 @@ public:
 	//	color;
 	}
 
-	Light(glm::vec4 p, double i, ColorDbl c) : pos(p), intensity(i), color(c) {};
+	// POINT LIGHT
+	Light(glm::vec4 p, float i, ColorDbl c) : pos(p), intensity(i), color(c) {};
+	// AREA LIGHT
+	Light(Triangle area, float i, ColorDbl col) : areaLight(area), color(col), intensity(i) {};
 	
 	glm::vec4 pos;
-	double intensity;
+	float intensity;
 	ColorDbl color;
+	Triangle areaLight;
 private:
 
 };
