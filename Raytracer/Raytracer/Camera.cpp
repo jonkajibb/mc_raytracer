@@ -17,23 +17,51 @@ void Camera::render(Scene s)
 	//side length of pixels: 0.0025
 	//center: y+0.00125, z-0.00125
 	float length = 2.0f / H;//0.0025;
-	float hLength = length / 2.0f;//0.00125; //half length
+	float hLength = length / 2.0f; //0.00125; //half length
 	glm::vec3 sphereNormal;
 	int depth;
 	int rayPerPixel = 4; // sqrt(rayPerPixel) must be integer, 3x3 = 9
+	ColorDbl finalCol;
+
 	std::ofstream out("out.ppm");
 
 	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
 
 	glm::vec4 currentP = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec4 point;
+	float increment = length - (length/sqrt(rayPerPixel));
+	
 
 	//Build image plane, 800x800 vertices
 	for (int h = 0; h < H; h++)
 	{
 		for (int w = 0; w < W; w++)
 		{
-			
-			glm::vec4 topLeft  = glm::vec4(0,
+			// Place ray endpoint on topleft corner of current pixel
+			glm::vec4 point = glm::vec4(
+				0.0f,
+				currentP.y - (increment / sqrt(rayPerPixel)),
+				currentP.z - (increment / sqrt(rayPerPixel)),
+				1.0f);
+
+			for (int i = 0; i < sqrt(rayPerPixel); i++) {
+				for (int j = 0; j < sqrt(rayPerPixel); j++) {
+					glm::vec3 dir = point - eye1;
+
+					Ray ray = Ray(eye1, dir);
+
+					point.y -= increment;
+
+					depth = 0;
+					finalCol = finalCol + castRay(ray, s, depth);
+				}
+				point.y = currentP.y - increment;
+
+				point.z -= increment; //move z down one row
+
+			}
+
+			/*glm::vec4 topLeft  = glm::vec4(0,
 				currentP.y-random_float(0.0, hLength),
 				currentP.z-random_float(0.0, hLength),
 				1.0);
@@ -58,12 +86,12 @@ void Camera::render(Scene s)
 			Ray ray_topLeft  = Ray(eye1, dir1);
             Ray ray_topRight = Ray(eye1, dir2);
             Ray ray_botLeft  = Ray(eye1, dir3);
-            Ray ray_botRight = Ray(eye1, dir4);
+            Ray ray_botRight = Ray(eye1, dir4);*/
 			
 			//Check if this ray hits a triangle
 			//if yes, then call createImage()
 			
-            depth = 0;
+            /*depth = 0;
 			ColorDbl finalCol1 = castRay(ray_topLeft,  s, depth);
             depth = 0;
             ColorDbl finalCol2 = castRay(ray_topRight, s, depth);
@@ -72,7 +100,7 @@ void Camera::render(Scene s)
             depth = 0;
             ColorDbl finalCol4 = castRay(ray_botRight, s, depth);
             
-			ColorDbl finalCol = finalCol1+finalCol2+finalCol3+finalCol4;
+			ColorDbl finalCol = finalCol1+finalCol2+finalCol3+finalCol4;*/
 			pixelPlane[w][h] = finalCol;
 
 			out << pixelPlane[w][h].color.R

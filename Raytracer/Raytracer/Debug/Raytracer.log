@@ -1,4 +1,16 @@
-﻿  main.cpp
-e:\mc_raytracer\raytracer\raytracer\scene.h(56): warning C4018: '<': signed/unsigned mismatch
-e:\mc_raytracer\raytracer\raytracer\scene.h(76): warning C4018: '<': signed/unsigned mismatch
-  Raytracer.vcxproj -> E:\mc_raytracer\Raytracer\Debug\Raytracer.exe
+﻿  Camera.cpp
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(56): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\scene.h(76): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(7): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(32): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(41): warning C4456: declaration of 'point' hides previous local declaration
+  d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(31): note: see declaration of 'point'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(21): warning C4101: 'sphereNormal': unreferenced local variable
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(31): warning C4101: 'point': unreferenced local variable
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(187): warning C4018: '<': signed/unsigned mismatch
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(233): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(274): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(288): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(324): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+d:\skolarbete\tncg15\mc_raytracer\raytracer\raytracer\camera.cpp(274): warning C4189: 'pdf': local variable is initialized but not referenced
+  Raytracer.vcxproj -> D:\Skolarbete\TNCG15\mc_raytracer\Raytracer\Debug\Raytracer.exe
