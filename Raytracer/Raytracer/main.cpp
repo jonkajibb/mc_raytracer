@@ -17,7 +17,7 @@ int main() {
 	std::vector<Triangle> triangles;
 	std::vector<Triangle> tetrahedron;
 
-	glm::vec4 eye = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
+	//glm::vec4 eye = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
 
 	Camera cam;
 
@@ -71,9 +71,11 @@ int main() {
 	Triangle rt6 = Triangle(rc, rv5, rv6, Diffuse, lightblue);
 
 	//WALLS
-	//north west
+	//north west, normal wrong way
 	Triangle wt1 = Triangle(fv6, fv1, rv6, Diffuse, blue);
+    wt1.normal = -wt1.normal;
 	Triangle wt2 = Triangle(fv1, rv1, rv6, Diffuse, blue);
+    wt2.normal = -wt2.normal;
 	//north
 	Triangle wt3 = Triangle(fv1, fv2, rv1, Diffuse, orange);
 	Triangle wt4 = Triangle(fv2, rv2, rv1, Diffuse, orange);
@@ -180,7 +182,8 @@ int main() {
 
 	//SKAPA SFÄÄÄÄÄÄÄR
     
-	glm::vec4 asdf = glm::vec4(6, 3, -0.5, 1);
+    //6, 3, -0.5, 1
+	glm::vec4 asdf = glm::vec4(6, 1, 1, 1);
 	std::vector<Sphere> spheres;
 	spheres.push_back(Sphere(asdf, 1.0, Mirror));
     

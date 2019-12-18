@@ -277,6 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/Auyo.S/Documents/LiU/TNCG15/ray/mc_raytracer/RayTracer/RayTracer/glm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -285,6 +286,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /Users/Auyo.S/Documents/LiU/TNCG15/ray/mc_raytracer/RayTracer/RayTracer/glm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

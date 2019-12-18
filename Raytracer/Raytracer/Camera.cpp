@@ -18,7 +18,7 @@ void Camera::render(Scene s)
 	//center: y+0.00125, z-0.00125
 	float length = 2.0f / H;//0.0025;
 	float hLength = length / 2.0f; //0.00125; //half length
-	glm::vec3 sphereNormal;
+	//glm::vec3 sphereNormal;
 	int depth;
 	int rayPerPixel = 4; // sqrt(rayPerPixel) must be integer, 3x3 = 9
 	ColorDbl finalCol;
@@ -28,7 +28,7 @@ void Camera::render(Scene s)
 	out << "P3\n" << H << '\n' << W << '\n' << "255\n";
 
 	glm::vec4 currentP = glm::vec4(0.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec4 point;
+	//glm::vec4 point;
 	float increment = length - (length/sqrt(rayPerPixel));
 	
 
@@ -138,7 +138,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	float angle;
 	glm::vec3 reflection;
 	ColorDbl finalColor;
-	ColorDbl indirectLighting = finalColor;
+	//ColorDbl indirectLighting = finalColor;
 	int maxDepth = 5; //Number of indirect light bounces
 	const int K = 5;
 	const int N_samples = 1;
@@ -271,7 +271,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         depth++;
                         //Incoming ray to glm vector
                         //glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
-                        float pdf = 1 / (2 * M_PI);
+                        //float pdf = 1 / (2 * M_PI);
 
                         //Create local coordinate system------------
 						glm::vec3 localZ = minTriangle.normal;
