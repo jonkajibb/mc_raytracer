@@ -303,6 +303,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         
 						//IMPLEMENTERA RUSSIAN ROULETTE
                         
+                        
                         Ray outRay = Ray(ray.end, outWorld);
 
                         finalColor = finalColor + (castRay(outRay,s,depth));
