@@ -139,7 +139,8 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	glm::vec3 reflection;
 	ColorDbl finalColor;
 	//ColorDbl indirectLighting = finalColor;
-	int maxDepth = 5; //Number of indirect light bounces
+	int maxDepth = 20; //Number of indirect light bounces
+	const int alpha = 0.25;
 	const int K = 5;
 	const int N_samples = 1;
 	int k = 0;
@@ -302,7 +303,11 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                                            (ray.end.z + outDir.z));*/
                         
 						//IMPLEMENTERA RUSSIAN ROULETTE
-                        
+						int roulette = random_float(0.0, 1.0);
+						if (roulette > (1 - alpha))
+							break;
+
+
                         Ray outRay = Ray(ray.end, outWorld);
 
                         finalColor = finalColor + (castRay(outRay,s,depth));
