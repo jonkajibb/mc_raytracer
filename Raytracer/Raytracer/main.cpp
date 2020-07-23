@@ -71,7 +71,7 @@ int main() {
 	Triangle rt6 = Triangle(rc, rv5, rv6, Diffuse, lightblue);
 
 	//WALLS
-	//north west, normal wrong way
+	//north west, normal wrong way (lazy fixed)
 	Triangle wt1 = Triangle(fv6, fv1, rv6, Diffuse, blue);
     wt1.normal = -wt1.normal;
 	Triangle wt2 = Triangle(fv1, rv1, rv6, Diffuse, blue);
@@ -185,6 +185,7 @@ int main() {
     //6, 3, -0.5, 1
 	glm::vec4 asdf = glm::vec4(6, 1, 1, 1);
 	std::vector<Sphere> spheres;
+    //Artefakter i väggar beror inte på sfären!
 	spheres.push_back(Sphere(asdf, 1.0, Mirror));
     
 	//Fill scene with triangles, spheres and lights

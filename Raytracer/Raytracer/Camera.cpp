@@ -286,7 +286,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
                         float r2 = random_float(0.0f, 1.0f);
 
                         float theta = asin(sqrt(r1)); //Inclination angle
-                        float phi = 2.0f * M_PI * r2; //Azimuth (TVÄRTOM??)
+                        float phi = 2.0f * M_PI * r2; //Azimuth (TVï¿½RTOM??)
 
                         glm::vec3 out = -ray.dir;
 
