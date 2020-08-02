@@ -11,6 +11,7 @@
 		30873E8E2359E98C00D6BAC5 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E7A2359E98B00D6BAC5 /* Triangle.cpp */; };
 		30873E902359E98C00D6BAC5 /* ColorDbl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E822359E98B00D6BAC5 /* ColorDbl.cpp */; };
 		30873E912359E98C00D6BAC5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30873E872359E98C00D6BAC5 /* main.cpp */; };
+		30D0968724C9B6C000292AFC /* Direction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30D0968424C9B6C000292AFC /* Direction.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,14 @@
 		30873E822359E98B00D6BAC5 /* ColorDbl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ColorDbl.cpp; path = ../../RayTracer/ColorDbl.cpp; sourceTree = "<group>"; };
 		30873E832359E98B00D6BAC5 /* ColorDbl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorDbl.h; path = ../../RayTracer/ColorDbl.h; sourceTree = "<group>"; };
 		30873E872359E98C00D6BAC5 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../RayTracer/main.cpp; sourceTree = "<group>"; };
+		30D0967F24C9B6BF00292AFC /* coolbild.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = coolbild.bmp; path = ../../RayTracer/coolbild.bmp; sourceTree = "<group>"; };
+		30D0968024C9B6C000292AFC /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = ../../RayTracer/glm; sourceTree = "<group>"; };
+		30D0968124C9B6C000292AFC /* Debug */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Debug; path = ../../RayTracer/Debug; sourceTree = "<group>"; };
+		30D0968224C9B6C000292AFC /* asfetbild.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = asfetbild.png; path = ../../RayTracer/asfetbild.png; sourceTree = "<group>"; };
+		30D0968324C9B6C000292AFC /* out.ppm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = out.ppm; path = ../../RayTracer/out.ppm; sourceTree = "<group>"; };
+		30D0968424C9B6C000292AFC /* Direction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Direction.cpp; path = ../../RayTracer/Direction.cpp; sourceTree = "<group>"; };
+		30D0968524C9B6C000292AFC /* PointLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointLight.h; path = ../../RayTracer/PointLight.h; sourceTree = "<group>"; };
+		30D0968624C9B6C000292AFC /* AreaLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreaLight.h; path = ../../RayTracer/AreaLight.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +85,14 @@
 		30873E622359E97300D6BAC5 /* Rayray */ = {
 			isa = PBXGroup;
 			children = (
+				30D0968624C9B6C000292AFC /* AreaLight.h */,
+				30D0968224C9B6C000292AFC /* asfetbild.png */,
+				30D0967F24C9B6BF00292AFC /* coolbild.bmp */,
+				30D0968124C9B6C000292AFC /* Debug */,
+				30D0968424C9B6C000292AFC /* Direction.cpp */,
+				30D0968024C9B6C000292AFC /* glm */,
+				30D0968324C9B6C000292AFC /* out.ppm */,
+				30D0968524C9B6C000292AFC /* PointLight.h */,
 				30873E752359E98B00D6BAC5 /* Camera.cpp */,
 				30873E7C2359E98B00D6BAC5 /* Camera.h */,
 				30873E822359E98B00D6BAC5 /* ColorDbl.cpp */,
@@ -158,6 +175,7 @@
 				30873E8E2359E98C00D6BAC5 /* Triangle.cpp in Sources */,
 				30873E8C2359E98C00D6BAC5 /* Camera.cpp in Sources */,
 				30873E912359E98C00D6BAC5 /* main.cpp in Sources */,
+				30D0968724C9B6C000292AFC /* Direction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

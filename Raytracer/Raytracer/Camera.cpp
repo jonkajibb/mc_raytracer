@@ -140,7 +140,9 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 	ColorDbl finalColor;
 	//ColorDbl indirectLighting = finalColor;
 	int maxDepth = 20; //Number of indirect light bounces
-	const int alpha = 0.25;
+    
+    const int alpha = 0.25;
+    
 	const int K = 5;
 	const int N_samples = 1;
 	int k = 0;
@@ -223,6 +225,65 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 			angle = 1 - cos(dot(lightDir, sphereNormal));
 
 			finalColor = minSphere.color * angle;
+            
+            if (angle < 0) {
+                finalColor = minSphere.color * 0;
+            }
+            else {
+
+                finalColor = minSphere.color * angle;
+                
+                for(int n = 0; n < N_samples; n++) {
+                
+                    //----GLOBAL ILLUMINATION----
+                    if (depth <= maxDepth) {
+                        
+                        depth++;
+                        //Incoming ray to glm vector
+                        //glm::vec3 inc = glm::normalize(glm::vec3(ray.dir.X, ray.dir.Y, ray.dir.Z));
+                        //float pdf = 1 / (2 * M_PI);
+
+                        //Create local coordinate system------------
+                        glm::vec3 localZ = sphereNormal;
+                        glm::vec3 localX = glm::normalize(ray.dir - (localZ * dot(ray.dir, localZ)));
+                        glm::vec3 localY = cross(-localX, localZ);
+                        //-------------------------------------------
+
+                        //float r1 = (randf() % 100 + 1) / 100; // cos(theta) = N.Light Direction
+                        float r1 = random_float(0.0f, 1.0f);
+                        //float r2 = (randf() % 100 + 1) / 100;
+                        float r2 = random_float(0.0f, 1.0f);
+
+                        float theta = asin(sqrt(r1)); //Inclination angle
+                        float phi = 2.0f * M_PI * r2; //Azimuth (TV�RTOM??)
+
+                        glm::vec3 out = -ray.dir;
+
+                        glm::vec3 outDir = glm::normalize(glm::rotate(out, phi, localZ));
+                        outDir = glm::normalize(glm::rotate(outDir, theta, localY));
+                        //std::cout << outDir.x << ", " << outDir.y << ", " << outDir.z << std::endl;
+                        glm::vec3 outWorld = glm::vec3(
+                            outDir.x * localY.x + outDir.y * localZ.x + outDir.z * localX.x,
+                            outDir.x * localY.y + outDir.y * localZ.y + outDir.z * localX.y,
+                            outDir.x * localY.z + outDir.y * localZ.z + outDir.z * localX.z);
+                        
+                        /*glm::vec3 outWorld = glm::vec3((ray.end.x + outDir.x),
+                                           (ray.end.y + outDir.y),
+                                           (ray.end.z + outDir.z));*/
+                        
+                        //IMPLEMENTERA RUSSIAN ROULETTE
+                        int roulette = random_float(0.0, 1.0);
+                        if (roulette > (1 - alpha))
+                            break;
+
+
+                        Ray outRay = Ray(ray.end, outWorld);
+
+                        finalColor = finalColor + (castRay(outRay,s,depth));
+                        
+                    }
+                }
+            }
 
 			//Check if surface should be shadowed
 			// For loop if area light
@@ -326,6 +387,7 @@ ColorDbl Camera::castRay(Ray ray, Scene s, int &depth) {
 						k++;
 					}
 				}
+                //std::cout<< "Depth is: " << depth << std::endl;
 				finalColor = finalColor * (k / K);
 			}
 		}
