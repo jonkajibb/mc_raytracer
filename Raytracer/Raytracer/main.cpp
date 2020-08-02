@@ -186,7 +186,7 @@ int main() {
 	glm::vec4 asdf = glm::vec4(6, 1, 1, 1);
 	std::vector<Sphere> spheres;
     //Artefakter i väggar beror inte på sfären!
-	spheres.push_back(Sphere(asdf, 1.0, Mirror));
+	spheres.push_back(Sphere(asdf, 1.0, Diffuse, red));
     
 	//Fill scene with triangles, spheres and lights
 	Scene s;
